@@ -93,7 +93,7 @@ public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAd
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewPreviousSearch = itemView.findViewById(R.id.textViewPreviousSearch);
-            imageViewDelete = itemView.findViewById(R.id.imageButtonDelete);
+            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }
 }

@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.ui;
+package algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -81,7 +81,6 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
                 return false;
             }
         });
-
 
         // Display the list of previous search terms
         displaySearchTerms();

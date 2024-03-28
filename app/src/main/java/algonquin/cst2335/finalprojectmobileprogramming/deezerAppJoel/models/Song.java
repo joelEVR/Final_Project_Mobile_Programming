@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "songs")
-public class Song {
+public class Song implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
@@ -23,9 +23,6 @@ public class Song {
     @ColumnInfo(name = "album_cover_url")
     private String albumCoverUrl;
 
-    @ColumnInfo(name = "preview_song_url")
-    private  String previewSongUrl;
-
     public Song(long id,String artist,String title, int duration, String albumName, String albumCoverUrl,String previewSongUrl) {
         this.id = id;
         this.artist = artist;
@@ -33,10 +30,29 @@ public class Song {
         this.duration = duration;
         this.albumName = albumName;
         this.albumCoverUrl = albumCoverUrl;
-        this.previewSongUrl = previewSongUrl;
 
     }
 
+    protected Song(Parcel in) {
+        id = in.readLong();
+        artist = in.readString();
+        title = in.readString();
+        duration = in.readInt();
+        albumName = in.readString();
+        albumCoverUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
     public long getId() {
         return id;
     }
@@ -60,8 +76,18 @@ public class Song {
         return albumCoverUrl;
     }
 
-    public String getPreviewSongUrl() {
-        return previewSongUrl;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(artist);
+        dest.writeString(title);
+        dest.writeInt(duration);
+        dest.writeString(albumName);
+        dest.writeString(albumCoverUrl);
+    }
 }

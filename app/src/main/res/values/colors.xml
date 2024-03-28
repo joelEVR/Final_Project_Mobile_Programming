@@ -1,39 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary colors -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimaryLight">#C5CAE9</color>
-
-    <!-- Accent color -->
-    <color name="colorAccent">#FF4081</color>
-
-    <!-- Secondary colors -->
-    <color name="colorSecondary">#FFC107</color>
-    <color name="colorSecondaryDark">#FFA000</color>
-    <color name="colorSecondaryLight">#FFECB3</color>
-
-    <!-- Backgrounds and cards -->
-    <color name="colorBackground">#F5F5F5</color>
-    <color name="colorSurface">#FFFFFF</color>
-
-    <!-- Text and icons -->
-    <color name="colorTextPrimary">#212121</color>
-    <color name="colorTextSecondary">#757575</color>
-    <color name="colorIcons">#FFFFFF</color>
-
-    <!-- Status and navigation bars -->
-    <color name="colorStatusBar">#303F9F</color>
-    <color name="colorNavigationBar">#3F51B5</color>
-
-    <!-- Other UI elements -->
-    <color name="colorDivider">#BDBDBD</color>
-    <color name="colorButtonNormal">#3F51B5</color>
-    <color name="colorButtonDisabled">#9E9E9E</color>
-    <color name="colorButtonText">#FFFFFF</color>
-
-    <!-- Feedback colors (success, warning, error) -->
-    <color name="colorSuccess">#4CAF50</color>
-    <color name="colorWarning">#FFC107</color>
-    <color name="colorError">#F44336</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="search_text_box_stroke">#FFFFFF</color>
+    <color name="search_text_color">#FFFFFF</color>
+    <color name="green">#3EB73A</color>
+    <color name="gray">#79000000</color>
+    <color name="light_gray">#2A000000</color>
 </resources>

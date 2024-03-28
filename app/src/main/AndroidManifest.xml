@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,15 +12,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FinalProjectMobileProgramming"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
 
         <activity android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".deezerAppJoel.FavoriteSongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".deezerAppJoel.SongListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".deezerAppJoel.ArtistListActivity"
+            android:exported="false" />
 
         <!-- SearchActivity configurada para ser el punto de entrada de la aplicación -->
-        <activity android:name="algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.ui.SearchActivity"
+        <activity android:name="algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.SearchActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
