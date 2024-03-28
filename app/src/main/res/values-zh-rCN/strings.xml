@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">日出日落查询</string>
+    <string name="lookup_for_lat_long">查询经纬度</string>
+    <string name="all_delete">删除所有喜爱的城市</string>
+    <string name="delete">删除喜爱的城市</string>
+    <string name="enter_latitude_longitude">请输入经纬度</string>
+    <string name="action_help">帮助</string>
+    <string name="save_location">收藏该位置</string>
+    <string name="refresh">刷新</string>
+    <string name="enter_latitude">请输入纬度</string>
+    <string name="enter_longitude">请输入经度</string>
+    <string name="lookup">查询</string>
+    <string name="MainActivity_Instruction">输入经纬度，点击查询得到日出日落时间，并输入地点名称以便决定是否保存？</string>
+    <string name="default_result_text">查询结果xia</string>
+    <string name="sunrise_time">日出时间</string>
+    <string name="sunset_time">日落时间</string>
+    <string name="location_name_hint">请输入该位置名称</string>
+</resources>
