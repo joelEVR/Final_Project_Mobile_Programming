@@ -1,4 +1,4 @@
 package algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter;
 
-public class FavoritesAdapter {
+public class FavoritesSongAdapter {
 }
