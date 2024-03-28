@@ -9,46 +9,80 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import algonquin.cst2335.finalprojectmobileprogramming.R;
-
 public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAdapter.ViewHolder> {
 
-    private List<String> previousSearchTerms;
-    private OnItemClickListener onItemClickListener;
+    private ArrayList<String> searchTerms;
+    private OnDeleteClickListener onDeleteClickListener; // Add interface reference
+    private OnClickListener onClickListener;
 
-    public PreviousSearchAdapter(List<String> searchTerms, OnItemClickListener listener) {
-        this.previousSearchTerms = searchTerms;
-        this.onItemClickListener = listener;
+    public PreviousSearchAdapter(ArrayList<String> searchTerms) {
+        this.searchTerms = searchTerms;
     }
 
-    // Define interface for click listeners (both delete and item click)
-    public interface OnItemClickListener {
+    // Define interface for delete click listener
+    public interface OnDeleteClickListener {
         void onDeleteClick(String searchTerm);
+    }
+
+    // Set delete click listener
+    public void setOnDeleteClickListener(OnDeleteClickListener listener) {
+        onDeleteClickListener = listener;
+    }
+
+    // Define interface for item click listener
+    public interface OnClickListener {
         void onItemClick(String searchTerm);
+    }
+
+    // Set item click listener
+    public void setOnClickListener(OnClickListener listener) {
+        onClickListener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search, parent, false);
-        return new ViewHolder(view, onItemClickListener);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(previousSearchTerms.get(position));
+        String searchTerm = searchTerms.get(position);
+        holder.textViewPreviousSearch.setText(searchTerm);
+
+        // Set click listener for the entire item
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.onItemClick(searchTerm);
+                }
+            }
+        });
+
+        holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDeleteClickListener != null) {
+                    onDeleteClickListener.onDeleteClick(searchTerm);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return previousSearchTerms.size();
+        return searchTerms.size();
     }
 
     public void setData(List<String> newSearchTerms) {
-        previousSearchTerms.clear();
-        previousSearchTerms.addAll(newSearchTerms);
+        searchTerms.clear();
+        searchTerms.addAll(newSearchTerms);
         notifyDataSetChanged();
     }
 
@@ -56,26 +90,10 @@ public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAd
         TextView textViewPreviousSearch;
         ImageView imageViewDelete;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewPreviousSearch = itemView.findViewById(R.id.textViewPreviousSearch);
             imageViewDelete = itemView.findViewById(R.id.imageButtonDelete);
-
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onItemClick(textViewPreviousSearch.getText().toString());
-                }
-            });
-
-            imageViewDelete.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onDeleteClick(textViewPreviousSearch.getText().toString());
-                }
-            });
-        }
-
-        public void bind(String searchTerm) {
-            textViewPreviousSearch.setText(searchTerm);
         }
     }
 }
