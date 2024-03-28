@@ -16,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSongs"
+        android:id="@+id/recyclerViewFavSongs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"
@@ -25,3 +25,4 @@
         android:scrollbarStyle="outsideOverlay" />
 
 </LinearLayout>
+
