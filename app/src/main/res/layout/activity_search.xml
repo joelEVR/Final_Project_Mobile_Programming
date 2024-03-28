@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context=".deezerAppJoel.ui.SearchActivity"
+    android:background="@color/colorBackground">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -28,6 +28,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/search_hint"
+        app:hintEnabled="false"
         android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="16dp"
