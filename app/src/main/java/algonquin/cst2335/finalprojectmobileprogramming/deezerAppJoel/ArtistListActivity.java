@@ -10,6 +10,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,19 +24,13 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.ArtistAdapter;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Artist;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
-import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.DeezerService;
-import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.DeezerServiceFactory;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.TopTracksResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ArtistListActivity extends AppCompatActivity implements ArtistAdapter.OnViewSongButtonClickListener {
 
     private RecyclerView recyclerView;
     private ArtistAdapter adapter;
     private ArrayList<Artist> artists;
-    private DeezerService deezerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +54,11 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
         } else {
             Toast.makeText(this, "No artists found", Toast.LENGTH_SHORT).show();
         }
-
-        // Set up Retrofit
-        deezerService = DeezerServiceFactory.create();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Navigate` back to the previous activity (search page)
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -75,18 +72,18 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
         fetchTopTracks(artistId,artistName);
     }
 
-    private void fetchTopTracks(int artistId,String artistName) {
-        // Make API call to fetch top tracks of the artist using DeezerService
-        Call<TopTracksResponse> call = deezerService.getTopTracks(artistId, 50);
-        call.enqueue(new Callback<TopTracksResponse>() {
-            @Override
-            public void onResponse(Call<TopTracksResponse> call, Response<TopTracksResponse> response) {
-                if (response.isSuccessful()) {
-                    TopTracksResponse topTracksResponse = response.body();
-                    if (topTracksResponse != null) {
-                        // Handle API response
+    private void fetchTopTracks(final int artistId, final String artistName) {
+        String url = "https://api.deezer.com/artist/" + artistId + "/top?limit=50";
+
+        // Crear una solicitud de Volley
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Aquí necesitas parsear la respuesta JSON a objetos Java
+                        Gson gson = new Gson();
+                        TopTracksResponse topTracksResponse = gson.fromJson(response, TopTracksResponse.class);
                         List<TopTracksResponse.Track> tracks = topTracksResponse.getTracks();
-                        // Process the tracks and start SongListActivity
                         ArrayList<Song> songs = new ArrayList<>();
                         for (TopTracksResponse.Track track : tracks) {
                             long songId = track.getId();
@@ -94,26 +91,21 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
                             int duration = track.getDuration();
                             String albumName = track.getAlbum().getTitle();
                             String albumCoverUrl = track.getAlbum().getCoverUrl();
-                            String previewSongUrl = track.getPreview();
-                            songs.add(new Song(songId,artistName,title, duration, albumName, albumCoverUrl,previewSongUrl));
+                            songs.add(new Song(songId, artistName, title, duration, albumName, albumCoverUrl));
                         }
                         Intent intent = new Intent(ArtistListActivity.this, SongListActivity.class);
                         intent.putParcelableArrayListExtra("songs", songs);
                         intent.putExtra("artistName", artistName);
-
                         startActivity(intent);
                     }
-                } else {
-                    // Handle unsuccessful response
-                    Toast.makeText(ArtistListActivity.this, "Error fetching top tracks", Toast.LENGTH_SHORT).show();
-                }
-            }
-
+                }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<TopTracksResponse> call, Throwable t) {
-                // Handle failure
-                Toast.makeText(ArtistListActivity.this, "Error fetching top tracks: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ArtistListActivity.this, "Error fetching top tracks: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        // Asegúrate de que tienes una instancia de RequestQueue y añade la solicitud
+        Volley.newRequestQueue(this).add(stringRequest);
     }
+
 }

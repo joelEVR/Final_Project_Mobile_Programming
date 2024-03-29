@@ -2,6 +2,7 @@ package algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -14,6 +15,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,13 +32,7 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivitySearchBinding;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.PreviousSearchAdapter;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Artist;
-import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.DeezerService;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.SearchResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity implements PreviousSearchAdapter.OnDeleteClickListener,PreviousSearchAdapter.OnClickListener  {
 
@@ -39,7 +40,8 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
     private SharedPreferences preferences;
     private ArrayList<String> previousSearchTerms = new ArrayList<>();
     private PreviousSearchAdapter adapter;
-    private DeezerService deezerService;
+    private RequestQueue requestQueue; // Add this line
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.myToolbar);
+
         // Set up RecyclerView
         adapter = new PreviousSearchAdapter(previousSearchTerms);
         adapter.setOnDeleteClickListener(this);
@@ -56,6 +59,8 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
         binding.recyclerViewResults.setAdapter(adapter);
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        requestQueue = Volley.newRequestQueue(this);
 
         // Set OnEditorActionListener for the search EditText
         binding.editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -84,14 +89,6 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
 
         // Display the list of previous search terms
         displaySearchTerms();
-
-        // Set up Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.deezer.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        deezerService = retrofit.create(DeezerService.class);
     }
 
     private List<String> getSearchTermsFromPreferences() {
@@ -145,29 +142,32 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
 
 
     }
-    private void performSearch(String searchTerm) {
-        Call<SearchResponse> call = deezerService.searchArtists(searchTerm);
-        call.enqueue(new Callback<SearchResponse>() {
-            @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Artist> artists = response.body().getArtists();
-                    if (artists != null && !artists.isEmpty()) {
-                        Intent intent = new Intent(SearchActivity.this, ArtistListActivity.class);
-                        intent.putParcelableArrayListExtra("artists", new ArrayList<>(artists));
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(SearchActivity.this, "No artists found", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(SearchActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
-                }
-            }
+    private void performSearch(final String searchTerm) {
+        String url = "https://api.deezer.com/search/artist?q=" + Uri.encode(searchTerm);
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Convertir respuesta JSON a objetos Java usando Gson
+                        Gson gson = new Gson();
+                        SearchResponse searchResponse = gson.fromJson(response, SearchResponse.class);
+                        List<Artist> artists = searchResponse.getArtists();
+                        if (artists != null && !artists.isEmpty()) {
+                            Intent intent = new Intent(SearchActivity.this, ArtistListActivity.class);
+                            intent.putParcelableArrayListExtra("artists", new ArrayList<>(artists));
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(SearchActivity.this, "No artists found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-                Toast.makeText(SearchActivity.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SearchActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        requestQueue.add(stringRequest);
     }
 }

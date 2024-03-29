@@ -23,7 +23,7 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "album_cover_url")
     private String albumCoverUrl;
 
-    public Song(long id,String artist,String title, int duration, String albumName, String albumCoverUrl,String previewSongUrl) {
+    public Song(long id,String artist,String title, int duration, String albumName, String albumCoverUrl) {
         this.id = id;
         this.artist = artist;
         this.title = title;
@@ -56,6 +56,7 @@ public class Song implements Parcelable {
     public long getId() {
         return id;
     }
+
     public String getArtist() {
         return artist;
     }
