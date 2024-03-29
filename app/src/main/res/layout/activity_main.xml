@@ -87,4 +87,15 @@
         app:layout_constraintTop_toBottomOf="@id/editTextLocationName"
         android:layout_marginTop="16dp"/>
 
+    <Button
+        android:id="@+id/btnShowFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/showFavorites"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonSaveLocation"
+        android:layout_marginTop="16dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

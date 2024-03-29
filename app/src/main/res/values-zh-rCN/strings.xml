@@ -16,4 +16,6 @@
     <string name="sunrise_time">日出时间</string>
     <string name="sunset_time">日落时间</string>
     <string name="location_name_hint">请输入该位置名称</string>
+    <string name="FavoriteActivity_Instruction">delete favorite location by clicking delect icon at the side \\n delete all locations by clicking TOP delete icon \\n search location by typing location name</string>
+    <string name="showFavorites">查看收藏</string>
 </resources>

@@ -8,7 +8,6 @@
     <string name="refresh">Refresh</string>
 
     <string name="error" translatable="false">Unexpected Error</string>
-    <string name="version" translatable="false">Version1.0.Created by chen0869</string>
     <string name="delete">Delete One Favorite city</string>
     <string name="enter_latitude">Enter latitude</string>
     <string name="enter_longitude">Enter longitude</string>
@@ -18,8 +17,17 @@
     <string name="sunset_time">Sunset Time: %1$s</string>
     <string name="location_name_hint">Please input the location name</string>
     <string name="save_location">Save Location</string>
-    <string name="MainActivity_Instruction">Please input latitude and longitude, then
-        click \"Lookup\" to retrieve sunset/sunrise time. Afterward input location name
-        and decide whether to save this location?</string>
+    <string name="MainActivity_Instruction">
+        1. Please input latitude and longitude.\n
+        2. Input location name to mark if necessary.\n
+        3. Click \"Lookup\" to retrieve sunset/sunrise time.\n
+        4. If need save this location, click \"Save\" to store.</string>
+    <string name="main_instruction" translatable="false">Main Instruction</string>
+    <string name="FavoriteActivity_Instruction">
+        1. Delete all locations by clicking delete TOP icon.\n
+        2. Delete specific location by clicking delete SIDE icon.\n
+        3. Click specific location to back to MainActivity if need update.\n
+        4. Search location by typing specific location name</string>
+    <string name="showFavorites">Show Favorites</string>
 
 </resources>

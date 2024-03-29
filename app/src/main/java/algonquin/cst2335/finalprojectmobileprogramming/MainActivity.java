@@ -1,5 +1,6 @@
 package algonquin.cst2335.finalprojectmobileprogramming;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -24,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import algonquin.cst2335.finalprojectmobileprogramming.data.LocationDatabase;
+import algonquin.cst2335.finalprojectmobileprogramming.data.LocationItem;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainBinding;
 
 
@@ -63,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveLocation();
+            }
+        });
+
+
+        // Click listener for the showFavorites button
+        binding.btnShowFavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -203,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_refresh) {
             refreshQuery();
-        }else if (id == R.id.action_help){
+        }else if (id == R.id.main_instruction){
             showHelpToast();
         }else {
             throw new IllegalStateException(getString(R.string.error));
@@ -240,14 +255,22 @@ public class MainActivity extends AppCompatActivity {
         //        location.latitude = latitude;
         //        location.longitude = longitude;
 
-        // 假设你有一个数据库实例db
-        // db.locationDao().insert(location);
-        // OR
-        // Assuming you have a method to save the LocationItem to your database
-        // saveLocationToDatabase(location);
-
-        Toast.makeText(MainActivity.this, "位置已保存", Toast.LENGTH_SHORT).show();
+        // 插入到数据库
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 获取数据库实例，并调用DAO执行插入操作
+                LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        LocationDatabase.class, "database-name").build();
+                db.locationItemDao().insertLocation(location);
+                // 回到主线程更新UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "位置已保存", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
     }
-
-
 }

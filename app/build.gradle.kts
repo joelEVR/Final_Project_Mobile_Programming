@@ -44,4 +44,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("androidx.recyclerview:recyclerview:1.3.2") // RecyclerView dependency
     implementation ("com.android.volley:volley:1.2.1") // Volley dependency
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }
