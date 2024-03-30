@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationItem;
@@ -29,7 +33,10 @@ public class FavoriteActivity extends AppCompatActivity {
     ActivityFavoriteBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
-    private List<LocationItem> locationItems = new ArrayList<>(); // 假设的数据列表
+    private List<LocationItem> locationItems = new ArrayList<>();
+
+    private final Executor executor = Executors.newSingleThreadExecutor();
+
 
 
     @Override
@@ -51,25 +58,31 @@ public class FavoriteActivity extends AppCompatActivity {
             @NonNull
             @Override
             public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                // 使用View Binding来为每个项（item）创建视图
+                // Use View Binding to create a view for each item
                 LocationItemBinding itemBinding = LocationItemBinding.inflate
                         (LayoutInflater.from(parent.getContext()), parent, false);
                 return  new MyViewHolder(itemBinding, position -> {
-                    // 这里实现删除逻辑
                     LocationItem itemToRemove = locationItems.get(position);
-                    locationItems.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, locationItems.size());
-                    // 这里添加与数据库同步删除的代码
+                    // The database is deleted asynchronously
+                    executor.execute(() -> {
+                        LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
+                        db.locationItemDao().deleteLocation(itemToRemove);
+                        // Run on the UI thread to update the UI
+                        runOnUiThread(() -> {
+                            // Removes the list data source and notifies the adapter of the update
+                            locationItems.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, locationItems.size());
+                        });
+                    });
                 });
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-                // 获取当前位置的LocationItem对象
+                // Gets the LocationItem object for the current location
                 LocationItem item = locationItems.get(position); // 假设这是你的数据源中的项
                 holder.bind(item, position);
-                // 删除按钮的逻辑...
             }
 
             @Override
@@ -78,16 +91,25 @@ public class FavoriteActivity extends AppCompatActivity {
             }
         });
 
+        // Load the location in the database
         loadLocationsFromDatabase();
 
+        // Set the text change listener for the search box
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                filterLocations(s.toString());
+            }
+        });
+
     }
 
 
-    public interface OnLocationItemDeleted {
-        void onItemDeleted(int position);
-    }
-
-
+    // Define loadLocationsFromDatabase calling in onCreate()
     private void loadLocationsFromDatabase() {
         new Thread(() -> {
             // To avoid creating multiple database instances, use the singleton mode
@@ -100,73 +122,48 @@ public class FavoriteActivity extends AppCompatActivity {
             });
         }).start();
     }
-    // error by using private static
-//    private class MyViewHolder extends RecyclerView.ViewHolder {
-//        // 使用View Binding类的实例
-//        private final LocationItemBinding binding;
-//
-//        MyViewHolder(LocationItemBinding binding) {
-//            super(binding.getRoot());
-//            this.binding = binding;
-//        }
-//
-//        void bind(LocationItem item) {
-//            // 使用binding来更新视图
-//            binding.name.setText(item.getName());
-//            binding.latitude.setText(String.valueOf(item.getLatitude()));
-//            binding.longitude.setText(String.valueOf(item.getLongitude()));
-//            // 绑定删除按钮的事件...
-//            binding.deleteButton.setOnClickListener(v -> {
-//                // 在这里实现删除当前位置的逻辑
-//                new Thread(() -> {
-//                    LocationDatabase db = LocationDatabase.getDatabase(binding.getRoot().getContext());
-//                    db.locationItemDao().deleteLocation(item); // 假设你有这样的方法
-//                    // 从列表中移除项目，并在UI线程上通知适配器更改
-//                    ((AppCompatActivity)binding.getRoot().getContext()).runOnUiThread(() -> {
-//                        locationItems.remove(item);
-//                        notifyDataSetChanged();
-//                    });
-//                }).start();
-//            });
-//        }
 
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            private final LocationItemBinding binding;
-            private final OnLocationItemDeleted deleteCallback;
+    // VERY IMPORTANT interface!!! USING IN MyViewHolder
+    public interface OnLocationItemDeleted {
+        void onItemDeleted(int position);
+    }
 
+    // Key Components -- MyViewHolder!!!!
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        private final LocationItemBinding binding;
+        private final OnLocationItemDeleted deleteCallback;
 
-            public MyViewHolder(LocationItemBinding binding, OnLocationItemDeleted deleteCallback) {
-                super(binding.getRoot());
-                this.binding = binding;
-                this.deleteCallback = deleteCallback;
-            }
-
-            void bind(LocationItem item, int position) {
-                binding.name.setText(item.getName());
-                binding.latitude.setText(String.valueOf(item.getLatitude()));
-                binding.longitude.setText(String.valueOf(item.getLongitude()));
-                // 设置删除按钮的点击监听器
-                binding.deleteButton.setOnClickListener(v -> {
-                        // 调用删除回调
-                    deleteCallback.onItemDeleted(position);
-                });
-            }
+        public MyViewHolder(LocationItemBinding binding, OnLocationItemDeleted deleteCallback) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.deleteCallback = deleteCallback;
         }
 
+        void bind(LocationItem item, int position) {
+            binding.name.setText(item.getName());
+            binding.latitude.setText(String.valueOf(item.getLatitude()));
+            binding.longitude.setText(String.valueOf(item.getLongitude()));
+            // Set the click listener for the delete button
+            binding.deleteButton.setOnClickListener(v -> {
+                // Call delete callback !!!!
+                deleteCallback.onItemDeleted(position);
+            });
+        }
+    }
 
-    // Defines an interface to handle the deletion of location items
+
+    // USELESS!!Defines an interface to handle the deletion of location items
     public interface LocationItemListener {
         void onDeleteLocation(LocationItem item);
     }
 
-
+    // onCreateOptionsMenu + onOptionsItemSelected to handle Menu events
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_favorites, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -180,6 +177,8 @@ public class FavoriteActivity extends AppCompatActivity {
         return true;
     }
 
+
+    // ShowConfirmDeleteDialog + deleteAllLocations to realize DeleteAll events
     private void showConfirmDeleteDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("确认删除")
@@ -194,7 +193,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 .setNegativeButton("取消", null)
                 .show();
     }
-
     private void deleteAllLocations() {
         new Thread(() -> {
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
@@ -206,4 +204,24 @@ public class FavoriteActivity extends AppCompatActivity {
             });
         }).start();
     }
+
+
+    // filterLocations + updateAdapterData to realize KeywordSearch
+    private void filterLocations(String query) {
+        List<LocationItem> filteredList = new ArrayList<>();
+        for (LocationItem item : locationItems) {
+            // Assume that the location name is in the name attribute of the LocationItem
+            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        // Update adapter data and refresh RecyclerView
+        updateAdapterData(filteredList);
+    }
+    private void updateAdapterData(List<LocationItem> filteredList) {
+        locationItems.clear();
+        locationItems.addAll(filteredList);
+        binding.favoritesRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
 }
