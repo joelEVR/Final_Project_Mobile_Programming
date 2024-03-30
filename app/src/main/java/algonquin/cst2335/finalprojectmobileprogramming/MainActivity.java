@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        setSupportActionBar(binding.toolbar); // Activate the Toolbar
+        // Activate the Toolbar
+        setSupportActionBar(binding.toolbar);
 
         // Load last search query
         loadLastSearch();
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
         // Save the current search query
-        saveLastSearch(latitude, longitude);
+        saveLastSearch(latitude, longitude,locationName);
 
         // create request to URL
         String url = "https://api.sunrisesunset.io/json?lat=" + latitude + "&lng=" + longitude
@@ -186,6 +187,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // Save the current search query to SharedPreferences
+    private void saveLastSearch(String latitude, String longitude,String locationName) {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("latitude", latitude);
+        editor.putString("longitude", longitude);
+        editor.putString("locationName", locationName);
+        editor.apply();
+    }
+
     // Load the last search query from SharedPreferences
     private void loadLastSearch() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -193,15 +204,8 @@ public class MainActivity extends AppCompatActivity {
         String longitude = prefs.getString("longitude", "");
         binding.editTextLatitude.setText(latitude);
         binding.editTextLongitude.setText(longitude);
-    }
-
-    // Save the current search query to SharedPreferences
-    private void saveLastSearch(String latitude, String longitude) {
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("latitude", latitude);
-        editor.putString("longitude", longitude);
-        editor.apply();
+        String locationName = prefs.getString("locationName", "");
+        binding.editTextLocationName.setText(locationName);
     }
 
     // etSupportActionBar(),Inflate the Menu in Your Activity
@@ -245,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 检查位置名称是否为空
         if(locationName.isEmpty()) {
-            Toast.makeText(MainActivity.this, "位置名称不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.location_not_null), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -256,21 +260,28 @@ public class MainActivity extends AppCompatActivity {
         //        location.longitude = longitude;
 
         // 插入到数据库
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 获取数据库实例，并调用DAO执行插入操作
-                LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        LocationDatabase.class, "database-name").build();
-                db.locationItemDao().insertLocation(location);
-                // 回到主线程更新UI
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, "位置已保存", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 获取数据库实例，并调用DAO执行插入操作
+//                LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
+//                        LocationDatabase.class, "database-name").build();
+//                db.locationItemDao().insertLocation(location);
+//                // 回到主线程更新UI
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(MainActivity.this, "位置已保存", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        }).start();
+        new Thread(() -> {
+            LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
+            db.locationItemDao().insertLocation(location);
+            runOnUiThread(() -> {
+                Toast.makeText(MainActivity.this, getString(R.string.location_saved), Toast.LENGTH_SHORT).show();
+            });
         }).start();
     }
 }

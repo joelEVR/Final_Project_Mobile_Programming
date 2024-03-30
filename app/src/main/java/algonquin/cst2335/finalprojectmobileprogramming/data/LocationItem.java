@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-// ChatRoom database DTO
+// Location database DTO
 @Entity
 public class LocationItem {
     @PrimaryKey(autoGenerate = true)

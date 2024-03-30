@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import algonquin.cst2335.finalprojectmobileprogramming.data.LocationDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationItem;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityFavoriteBinding;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainBinding;
@@ -69,8 +70,23 @@ public class FavoriteActivity extends AppCompatActivity {
                 return locationItems.size(); // 假设这是你的数据源大小
             }
         });
+
+        loadLocationsFromDatabase();
+
     }
 
+
+    private void loadLocationsFromDatabase() {
+        new Thread(() -> {
+            LocationDatabase db = null;
+            List<LocationItem> items = db.locationItemDao().getAllLocations(); // 假设你有这样的方法
+            runOnUiThread(() -> {
+                locationItems.clear();
+                locationItems.addAll(items);
+                binding.favoritesRecyclerView.getAdapter().notifyDataSetChanged();
+            });
+        }).start();
+    }
     private static class MyViewHolder extends RecyclerView.ViewHolder {
         // 使用View Binding类的实例
         private final LocationItemBinding binding;

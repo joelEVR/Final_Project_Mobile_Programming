@@ -30,4 +30,8 @@
         4. Search location by typing specific location name</string>
     <string name="showFavorites">Show Favorites</string>
 
+    <string name="location_not_null">Location name cannot be null</string>
+    <string name="location_saved">Location Saved</string>
+
+
 </resources>
