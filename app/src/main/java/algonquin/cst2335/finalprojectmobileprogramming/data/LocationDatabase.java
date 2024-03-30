@@ -13,6 +13,7 @@ public abstract class LocationDatabase extends RoomDatabase {
 
     // Enforced method!!
     // Add the static method to ensures that there is only one database instance globally
+    // To avoid creating multiple database instances, you are advised to use the singleton mode
     private static volatile LocationDatabase INSTANCE;
 
     public static LocationDatabase getDatabase(final Context context) {

@@ -54,14 +54,21 @@ public class FavoriteActivity extends AppCompatActivity {
                 // 使用View Binding来为每个项（item）创建视图
                 LocationItemBinding itemBinding = LocationItemBinding.inflate
                         (LayoutInflater.from(parent.getContext()), parent, false);
-                return new MyViewHolder(itemBinding);
+                return  new MyViewHolder(itemBinding, position -> {
+                    // 这里实现删除逻辑
+                    LocationItem itemToRemove = locationItems.get(position);
+                    locationItems.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, locationItems.size());
+                    // 这里添加与数据库同步删除的代码
+                });
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
                 // 获取当前位置的LocationItem对象
                 LocationItem item = locationItems.get(position); // 假设这是你的数据源中的项
-                holder.bind(item);
+                holder.bind(item, position);
                 // 删除按钮的逻辑...
             }
 
@@ -76,9 +83,15 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
 
+    public interface OnLocationItemDeleted {
+        void onItemDeleted(int position);
+    }
+
+
     private void loadLocationsFromDatabase() {
         new Thread(() -> {
-            LocationDatabase db = null;
+            // To avoid creating multiple database instances, use the singleton mode
+            LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
             List<LocationItem> items = db.locationItemDao().getAllLocations(); // 假设你有这样的方法
             runOnUiThread(() -> {
                 locationItems.clear();
@@ -87,23 +100,65 @@ public class FavoriteActivity extends AppCompatActivity {
             });
         }).start();
     }
-    private static class MyViewHolder extends RecyclerView.ViewHolder {
-        // 使用View Binding类的实例
-        private final LocationItemBinding binding;
+    // error by using private static
+//    private class MyViewHolder extends RecyclerView.ViewHolder {
+//        // 使用View Binding类的实例
+//        private final LocationItemBinding binding;
+//
+//        MyViewHolder(LocationItemBinding binding) {
+//            super(binding.getRoot());
+//            this.binding = binding;
+//        }
+//
+//        void bind(LocationItem item) {
+//            // 使用binding来更新视图
+//            binding.name.setText(item.getName());
+//            binding.latitude.setText(String.valueOf(item.getLatitude()));
+//            binding.longitude.setText(String.valueOf(item.getLongitude()));
+//            // 绑定删除按钮的事件...
+//            binding.deleteButton.setOnClickListener(v -> {
+//                // 在这里实现删除当前位置的逻辑
+//                new Thread(() -> {
+//                    LocationDatabase db = LocationDatabase.getDatabase(binding.getRoot().getContext());
+//                    db.locationItemDao().deleteLocation(item); // 假设你有这样的方法
+//                    // 从列表中移除项目，并在UI线程上通知适配器更改
+//                    ((AppCompatActivity)binding.getRoot().getContext()).runOnUiThread(() -> {
+//                        locationItems.remove(item);
+//                        notifyDataSetChanged();
+//                    });
+//                }).start();
+//            });
+//        }
 
-        MyViewHolder(LocationItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            private final LocationItemBinding binding;
+            private final OnLocationItemDeleted deleteCallback;
+
+
+            public MyViewHolder(LocationItemBinding binding, OnLocationItemDeleted deleteCallback) {
+                super(binding.getRoot());
+                this.binding = binding;
+                this.deleteCallback = deleteCallback;
+            }
+
+            void bind(LocationItem item, int position) {
+                binding.name.setText(item.getName());
+                binding.latitude.setText(String.valueOf(item.getLatitude()));
+                binding.longitude.setText(String.valueOf(item.getLongitude()));
+                // 设置删除按钮的点击监听器
+                binding.deleteButton.setOnClickListener(v -> {
+                        // 调用删除回调
+                    deleteCallback.onItemDeleted(position);
+                });
+            }
         }
 
-        void bind(LocationItem item) {
-            // 使用binding来更新视图
-            binding.name.setText(item.getName());
-            binding.latitude.setText(String.valueOf(item.getLatitude()));
-            binding.longitude.setText(String.valueOf(item.getLongitude()));
-            // 绑定删除按钮的事件...
-        }
+
+    // Defines an interface to handle the deletion of location items
+    public interface LocationItemListener {
+        void onDeleteLocation(LocationItem item);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,6 +196,14 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
     private void deleteAllLocations() {
-        // 这里调用删除所有位置的方法，例如使用ViewModel或直接操作数据库
+        new Thread(() -> {
+            LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
+            db.locationItemDao().deleteAllLocations(); // 假设你有这样的方法
+            // 从列表中移除所有项目，并在UI线程上通知适配器更改
+            runOnUiThread(() -> {
+                locationItems.clear();
+                binding.favoritesRecyclerView.getAdapter().notifyDataSetChanged();
+            });
+        }).start();
     }
 }

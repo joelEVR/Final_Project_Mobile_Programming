@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        // Create a database instance using Room.
+//        LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
+//                LocationDatabase.class, "location_database").build();
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -95,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Generate and display the request result
-        String message = "Looking up the latitude" + latitude + "，longitude：" + longitude
-                + "whose time of sunrise and sunset are ... ";
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+//        String message = "Looking up the latitude" + latitude + "，longitude：" + longitude
+//                + "whose time of sunrise and sunset are ... ";
+//        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
 
         // Save the current search query
         saveLastSearch(latitude, longitude,locationName);
@@ -221,7 +226,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            refreshQuery();
+            binding.editTextLatitude.setText("");
+            binding.editTextLongitude.setText("");
+            binding.editTextLocationName.setText("");
+
+            binding.textViewResult.setText("");
+            Toast.makeText(this, "内容已清空", Toast.LENGTH_SHORT).show();
         }else if (id == R.id.main_instruction){
             showHelpToast();
         }else {
@@ -253,30 +263,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // 创建Location对象并保存到数据库
+        // create Location object and store in database
         LocationItem location = new LocationItem(latitude, longitude, locationName);
-        //        location.name = locationName;
-        //        location.latitude = latitude;
-        //        location.longitude = longitude;
 
-        // 插入到数据库
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                // 获取数据库实例，并调用DAO执行插入操作
-//                LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
-//                        LocationDatabase.class, "database-name").build();
-//                db.locationItemDao().insertLocation(location);
-//                // 回到主线程更新UI
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(MainActivity.this, "位置已保存", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        }).start();
         new Thread(() -> {
+            // To avoid creating multiple database instances, use the singleton mode
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
             db.locationItemDao().insertLocation(location);
             runOnUiThread(() -> {
