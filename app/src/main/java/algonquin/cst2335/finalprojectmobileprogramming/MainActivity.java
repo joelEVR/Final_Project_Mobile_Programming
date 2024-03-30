@@ -40,22 +40,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        // Create a database instance using Room.
-//        LocationDatabase db = Room.databaseBuilder(getApplicationContext(),
-//                LocationDatabase.class, "location_database").build();
-
+        // Comment this database instantiation which moved in LocationDatabase ensure singleton mode
+        // LocationDatabase db = Room.databaseBuilder(getApplicationContext(), LocationDatabase.class, "location_database").build();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-
+        setContentView(binding.getRoot());
         // Activate the Toolbar
         setSupportActionBar(binding.toolbar);
 
-        // Load last search query
-        loadLastSearch();
+        // Checks whether the Intent contains specific data and updates the UI accordingly
+        if (getIntent() != null && getIntent().hasExtra(getString(R.string.latitude))
+                && getIntent().hasExtra(getString(R.string.longitude))
+                && getIntent().hasExtra(getString(R.string.name))) {
+            double latitude = getIntent().getDoubleExtra(getString(R.string.latitude), 0);
+            double longitude = getIntent().getDoubleExtra(getString(R.string.longitude), 0);
+            String name = getIntent().getStringExtra(getString(R.string.name));
 
-        // Set the click listener for the lookup button
+            binding.editTextLatitude.setText(String.valueOf(latitude));
+            binding.editTextLongitude.setText(String.valueOf(longitude));
+            binding.editTextLocationName.setText(name);
+        }else{
+            // Load last search query
+            loadLastSearch();
+        }
+
+
+        // Click listener for the Lookup button to CALL performSunriseSunsetLookup()
         binding.btnLookup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,16 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 performSunriseSunsetLookup();
             }
         });
-
-        // Set the click listener for the save button
+        // Click listener for the saveLocation button
         binding.buttonSaveLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveLocation();
             }
         });
-
-
         // Click listener for the showFavorites button
         binding.btnShowFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,29 +94,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // KEY STEP!!! CONNECT network to retrieve Lookup result
     private void performSunriseSunsetLookup() {
         String latitude = binding.editTextLatitude.getText().toString().trim();
         String longitude = binding.editTextLongitude.getText().toString().trim();
-
         // Provide the latitude and longitude are not empty
         if (latitude.isEmpty() || longitude.isEmpty()) {
             Toast.makeText(MainActivity.this, getString(R.string.enter_latitude_longitude),
                     Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Generate and display the request result
-//        String message = "Looking up the latitude" + latitude + "，longitude：" + longitude
-//                + "whose time of sunrise and sunset are ... ";
-//        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-
         // Save the current search query
         saveLastSearch(latitude, longitude,locationName);
-
         // create request to URL
-        String url = "https://api.sunrisesunset.io/json?lat=" + latitude + "&lng=" + longitude
-                + "&timezone=UTC&date=today";
-
+        String url = getString(R.string.url_part1)+ latitude + getString(R.string.url_part2) + longitude
+                + getString(R.string.url_part3);
         // Launch request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -118,16 +116,16 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             // Firstly check status String (首先，检查状态码是否为OK)
-                            String status = response.getString("status");
-                            if ("OK".equals(status)) {
+                            String status = response.getString(getString(R.string.status));
+                            if (getString(R.string.OK).equals(status)) {
                                 // Retrieve result object (获取results对象)
-                                JSONObject results = response.getJSONObject("results");
+                                JSONObject results = response.getJSONObject(getString(R.string.results));
 
                                 // Retrieve sunset and sunrise time from object (从results对象中获取日出和日落时间)
-                                String sunrise = results.getString("sunrise");
-                                String sunset = results.getString("sunset");
+                                String sunrise = results.getString(getString(R.string.sunrise));
+                                String sunset = results.getString(getString(R.string.sunset));
 
-                                // Transfer time to local time Style (将时间转换为本地时间（因为API返回的是UTC时间）)
+                                // !!! Transfer time to local time Style (将时间转换为本地时间（因为API返回的是UTC时间）)
                                 String localSunrise = convertUTCToLocalTime(sunrise);
                                 String localSunset = convertUTCToLocalTime(sunset);
 
@@ -135,29 +133,23 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //                                        String resultText = getString(R.string.sunrise_time, localSunrise)
-                                        //                                                + "\n" + getString(R.string.sunset_time, localSunset);
-                                        //                                        String resultText = "Sunrise Time: " + localSunrise + "\nSunset Time: " + localSunset;
-                                        //                                        binding.textViewResult.setText(resultText);
-                                        String resultFormat = "Location Name: %s\nLatitude: %s, " +
-                                                "Longitude: %s\nSunrise: %s\nSunset: %s";
-                                        String displayText = String.format(resultFormat, locationName,
+                                        String resultFormat = getString(R.string.result_format);
+                                                String displayText = String.format(resultFormat, locationName,
                                                 latitude, longitude, localSunrise, localSunset);
                                         binding.textViewResult.setText(displayText);
-
-
                                     }
                                 });
                             } else {
                                 // Handel errors when status =! OK
-                                Toast.makeText(MainActivity.this, "Retrieve Data Fail.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, getString(R.string.retrieve_data_fail), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Phase Data Error.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.phase_data_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
+                    // Various network error message. Whether need ???
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Log the error or inspect it
@@ -165,24 +157,23 @@ public class MainActivity extends AppCompatActivity {
                         if (error.networkResponse != null) {
                             Log.e("SunriseSunsetLookup", "Status Code: " + error.networkResponse.statusCode);
                         }
-                        Toast.makeText(MainActivity.this, "Request Fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.request_fail), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        // Add request into request queue (将请求添加到请求队列)
+        // Add request into request queue (将请求添加到请求队列) !!!!
         Volley.newRequestQueue(this).add(jsonObjectRequest);
 
     }
-
+    // Whether to need this conversion ????
     private String convertUTCToLocalTime(String utcTime) {
         try {
             // Parse the time format returned by the API (解析API返回的时间格式)
-            SimpleDateFormat utcFormat = new SimpleDateFormat("h:mm:ss a", Locale.US);
+            SimpleDateFormat utcFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.US);
             utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = utcFormat.parse(utcTime);
 
             // Convert to local time format (转换为本地时间格式)
-            SimpleDateFormat localFormat = new SimpleDateFormat("h:mm:ss a", Locale.US);
+            SimpleDateFormat localFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.US);
             localFormat.setTimeZone(TimeZone.getDefault());
             return localFormat.format(date);
         } catch (ParseException e) {
@@ -196,42 +187,40 @@ public class MainActivity extends AppCompatActivity {
     private void saveLastSearch(String latitude, String longitude,String locationName) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("latitude", latitude);
-        editor.putString("longitude", longitude);
-        editor.putString("locationName", locationName);
+        editor.putString(getString(R.string.latitude), latitude);
+        editor.putString(getString(R.string.longitude), longitude);
+        editor.putString(getString(R.string.location_name), locationName);
         editor.apply();
     }
-
     // Load the last search query from SharedPreferences
     private void loadLastSearch() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        String latitude = prefs.getString("latitude", "");
-        String longitude = prefs.getString("longitude", "");
+        String latitude = prefs.getString(getString(R.string.latitude), "");
+        String longitude = prefs.getString(getString(R.string.longitude), "");
         binding.editTextLatitude.setText(latitude);
         binding.editTextLongitude.setText(longitude);
-        String locationName = prefs.getString("locationName", "");
+        String locationName = prefs.getString(getString(R.string.location_name), "");
         binding.editTextLocationName.setText(locationName);
     }
 
-    // etSupportActionBar(),Inflate the Menu in Your Activity
+
+    // setSupportActionBar() to Inflate the Menu(ToolBar)
+    // onCreateOptionsMenu + onOptionsItemSelected + showHelpToast to realize WHOLE Menu event
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.action_refresh) {
             binding.editTextLatitude.setText("");
             binding.editTextLongitude.setText("");
             binding.editTextLocationName.setText("");
-
             binding.textViewResult.setText("");
-            Toast.makeText(this, "内容已清空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.content_clear), Toast.LENGTH_SHORT).show();
         }else if (id == R.id.main_instruction){
             showHelpToast();
         }else {
@@ -239,33 +228,26 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     // Display the instruction by Toast Message
     private void showHelpToast() {
         String helpText = getString(R.string.MainActivity_Instruction);
         Toast.makeText(this, helpText, Toast.LENGTH_LONG).show();
     }
 
-    private void refreshQuery() {
-        // redo the Lookup method
-        performSunriseSunsetLookup();
-    }
 
+    // KEY STEP!!! Save Location to transfer to Database
     private void saveLocation() {
-//            NO need to get the locationName here! Use the class level variable locationName
-//            String locationName = binding.editTextLocationName.getText().toString().trim();
+        // NO need to get the locationName here! Use the class level variable locationName
+        // String locationName = binding.editTextLocationName.getText().toString().trim();
         double latitude = Double.parseDouble(binding.editTextLatitude.getText().toString().trim());
         double longitude = Double.parseDouble(binding.editTextLongitude.getText().toString().trim());
-
-        // 检查位置名称是否为空
+        // Check whether the location name is empty
         if(locationName.isEmpty()) {
             Toast.makeText(MainActivity.this, getString(R.string.location_not_null), Toast.LENGTH_SHORT).show();
             return;
         }
-
         // create Location object and store in database
         LocationItem location = new LocationItem(latitude, longitude, locationName);
-
         new Thread(() -> {
             // To avoid creating multiple database instances, use the singleton mode
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());

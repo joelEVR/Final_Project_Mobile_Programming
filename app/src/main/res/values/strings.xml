@@ -1,37 +1,61 @@
 <resources>
     <string name="app_name">Final Project Mobile Programming</string>
-    <string name="lookup_for_lat_long">Lookup for Lat: %1$s, Long: %2$s</string>
 
-    <string name="all_delete">Delete All Favorite city</string>
     <string name="enter_latitude_longitude">Please enter latitude and longitude</string>
-    <string name="action_help">Help</string>
     <string name="refresh">Refresh</string>
-
     <string name="error" translatable="false">Unexpected Error</string>
     <string name="delete">Delete One Favorite city</string>
     <string name="enter_latitude">Enter latitude</string>
     <string name="enter_longitude">Enter longitude</string>
     <string name="lookup">Lookup</string>
     <string name="default_result_text">Lookup result will display here</string>
-    <string name="sunrise_time">Sunrise Time: %1$s</string>
-    <string name="sunset_time">Sunset Time: %1$s</string>
     <string name="location_name_hint">Please input the location name</string>
+    <string name="location_not_null">Location name cannot be null</string>
+    <string name="location_saved">Location Saved</string>
     <string name="save_location">Save Location</string>
     <string name="MainActivity_Instruction">
         1. Please input latitude and longitude.\n
         2. Input location name to mark if necessary.\n
         3. Click \"Lookup\" to retrieve sunset/sunrise time.\n
         4. If need save this location, click \"Save\" to store.</string>
-    <string name="main_instruction" translatable="false">Main Instruction</string>
+    <string name="main_instruction">Main Instruction</string>
+
     <string name="FavoriteActivity_Instruction">
         1. Delete all locations by clicking delete TOP icon.\n
         2. Delete specific location by clicking delete SIDE icon.\n
         3. Click specific location to back to MainActivity if need update.\n
         4. Search location by typing specific location name</string>
+    <string name="location_instruction">Saved Locations Instruction</string>
     <string name="showFavorites">Show Favorites</string>
+    <string name="all_delete">Delete All Favorite city</string>
+    <string name="search_locations">Search Saved locations by locationName</string>
+    <string name="content_clear">内容已清空</string>
 
-    <string name="location_not_null">Location name cannot be null</string>
-    <string name="location_saved">Location Saved</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="name">name</string>
+    <string name="clear_locations">Clear LOCATIONS</string>
+    <string name="sure_to_delete_all">Are you sure to delete ALL saved locations？</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">cancel</string>
+    <string name="url_part1">https://api.sunrisesunset.io/json?lat=</string>
+    <string name="url_part3"><![CDATA[&timezone=UTC&date=today]]></string>
+    <string name="url_part2"><![CDATA[&lng=]]></string>
+    <string name="status">status</string>
+    <string name="results">results</string>
+    <string name="sunrise">sunrise</string>
+    <string name="sunset">sunset</string>
+    <string name="result_format">Location Name: %s\nLatitude: %s\nLongitude: %s\nSunrise: %s\nSunset: %s</string>
+    <string name="OK">OK</string>
+    <string name="retrieve_data_fail">Retrieve Data Fail.</string>
+    <string name="phase_data_error">Phase Data Error.</string>
+    <string name="request_fail">Request Fail</string>
+
+    <string name="time_format">h:mm:ss a</string>
+    <string name="pref_key_latitude">latitude</string>
+    <string name="pref_key_longitude">longitude</string>
+    <string name="pref_key_location_name">locationName</string>
+    <string name="location_name">locationName</string>
 
 
 </resources>

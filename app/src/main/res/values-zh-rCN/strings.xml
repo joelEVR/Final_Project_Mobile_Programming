@@ -16,8 +16,20 @@
     <string name="sunrise_time">日出时间</string>
     <string name="sunset_time">日落时间</string>
     <string name="location_name_hint">请输入该位置名称</string>
-    <string name="FavoriteActivity_Instruction">delete favorite location by clicking delect icon at the side \\n delete all locations by clicking TOP delete icon \\n search location by typing location name</string>
+    <string name="FavoriteActivity_Instruction">1. 使用置顶删除键清空所有 \n2. 使用侧面删除键具体地点条目 \n3. 点击具体条目返回主界面 \n4. 过滤具体地名</string>
     <string name="showFavorites">查看收藏</string>
     <string name="location_not_null">位置名称不能为空</string>
     <string name="location_saved">位置已存</string>
+    <string name="content_clear">Contents cleared.</string>
+    <string name="search_locations">根据地名搜索</string>
+    <string name="main_instruction">主界面使用说明</string>
+    <string name="location_instruction">保存界面使用指南</string>
+    <string name="latitude">纬度</string>
+    <string name="longitude">经度</string>
+    <string name="name">地名</string>
+    <string name="clear_locations">清空地点</string>
+    <string name="sure_to_delete_all">你确定要删除所有保存的地点吗？</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="result_format">地名：%s\n维度：%s\n经度：%s\n日出时间:%s\n日落时间：%s</string>
 </resources>

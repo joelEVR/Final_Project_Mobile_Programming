@@ -2,6 +2,7 @@ package algonquin.cst2335.finalprojectmobileprogramming;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,29 +30,24 @@ import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainB
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.LocationItemBinding;
 
 public class FavoriteActivity extends AppCompatActivity {
-
     ActivityFavoriteBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
     private List<LocationItem> locationItems = new ArrayList<>();
-
     private final Executor executor = Executors.newSingleThreadExecutor();
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_favorite);
         // Initialize View Binding
         binding = ActivityFavoriteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         // create Toolbar
         setSupportActionBar(binding.toolbarLayout.toolbar);
-
         // The layout manager specifies RecyclerView items is arranged in a vertical column.
         binding.favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // The adapter is set up for RecyclerView, and is responsible for binding the data
         // from the data source to each entry of RecyclerView.
         binding.favoritesRecyclerView.setAdapter(new RecyclerView.Adapter<MyViewHolder>() {
@@ -77,24 +73,22 @@ public class FavoriteActivity extends AppCompatActivity {
                     });
                 });
             }
-
             @Override
             public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
                 // Gets the LocationItem object for the current location
-                LocationItem item = locationItems.get(position); // 假设这是你的数据源中的项
+                LocationItem item = locationItems.get(position);
                 holder.bind(item, position);
             }
-
             @Override
             public int getItemCount() {
-                return locationItems.size(); // 假设这是你的数据源大小
+                return locationItems.size();
             }
         });
 
         // Load the location in the database
         loadLocationsFromDatabase();
 
-        // Set the text change listener for the search box
+        // Set the text change listener for the search box。 Brand-new using TextWatcher!!!!
         binding.searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -105,7 +99,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 filterLocations(s.toString());
             }
         });
-
     }
 
 
@@ -114,7 +107,7 @@ public class FavoriteActivity extends AppCompatActivity {
         new Thread(() -> {
             // To avoid creating multiple database instances, use the singleton mode
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
-            List<LocationItem> items = db.locationItemDao().getAllLocations(); // 假设你有这样的方法
+            List<LocationItem> items = db.locationItemDao().getAllLocations();
             runOnUiThread(() -> {
                 locationItems.clear();
                 locationItems.addAll(items);
@@ -139,10 +132,19 @@ public class FavoriteActivity extends AppCompatActivity {
             this.deleteCallback = deleteCallback;
         }
 
+        // VERY Special Handler!!!!!!!!!
         void bind(LocationItem item, int position) {
             binding.name.setText(item.getName());
             binding.latitude.setText(String.valueOf(item.getLatitude()));
             binding.longitude.setText(String.valueOf(item.getLongitude()));
+            // Set the click listener for the entire entry
+            binding.getRoot().setOnClickListener(v -> {
+                Intent intent = new Intent(binding.getRoot().getContext(), MainActivity.class);
+                intent.putExtra(getString(R.string.latitude), item.getLatitude());
+                intent.putExtra(getString(R.string.longitude), item.getLongitude());
+                intent.putExtra(getString(R.string.name), item.getName());
+                binding.getRoot().getContext().startActivity(intent);
+            });
             // Set the click listener for the delete button
             binding.deleteButton.setOnClickListener(v -> {
                 // Call delete callback !!!!
@@ -181,23 +183,22 @@ public class FavoriteActivity extends AppCompatActivity {
     // ShowConfirmDeleteDialog + deleteAllLocations to realize DeleteAll events
     private void showConfirmDeleteDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("确认删除")
-                .setMessage("确定要删除所有收藏的位置吗？")
-                .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.clear_locations))
+                .setMessage(getString(R.string.sure_to_delete_all))
+                .setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // 删除所有位置的逻辑
                         deleteAllLocations();
                     }
                 })
-                .setNegativeButton("取消", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
     private void deleteAllLocations() {
         new Thread(() -> {
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
-            db.locationItemDao().deleteAllLocations(); // 假设你有这样的方法
-            // 从列表中移除所有项目，并在UI线程上通知适配器更改
+            db.locationItemDao().deleteAllLocations();
+            // Remove all items from the list and notify the adapter of the change on the UI thread
             runOnUiThread(() -> {
                 locationItems.clear();
                 binding.favoritesRecyclerView.getAdapter().notifyDataSetChanged();
