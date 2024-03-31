@@ -2,19 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MainActivity">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="mainActivityTest2()">
+      <entry key="clickBackForUpdateTest()">
         <State />
       </entry>
-      <entry key="testSaveLocationToFavorites()">
+      <entry key="clickBackForUpdateTest() (1)">
         <State />
       </entry>
-      <entry key="testSaveLocationToFavorites() (1)">
+      <entry key="deleteAllLocationsTest()">
+        <State />
+      </entry>
+      <entry key="test1()">
         <State />
       </entry>
       <entry key="testSunriseSunsetLookup()">
