@@ -22,7 +22,6 @@ import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +33,6 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationItem;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityFavoriteBinding;
-import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainBinding;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.LocationItemBinding;
 
 /**
@@ -165,7 +163,7 @@ public class FavoriteActivity extends AppCompatActivity {
      * {@link RecyclerView.ViewHolder} subclass used for displaying individual location items
      * within a {@link RecyclerView} in {@link FavoriteActivity}. This class binds location data to the views
      * defined in the {@link LocationItemBinding} layout and sets up click listeners for interactions,
-     * such as clicking on a location item to navigate back to the {@link MainActivity} with the item's data.
+     * such as clicking on a location item to navigate back to the {@link MainActivityTing} with the item's data.
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         /**
@@ -209,7 +207,7 @@ public class FavoriteActivity extends AppCompatActivity {
             binding.longitude.setText(String.valueOf(item.getLongitude()));
             // Set the click listener for the entire entry
             binding.getRoot().setOnClickListener(v -> {
-                Intent intent = new Intent(binding.getRoot().getContext(), MainActivity.class);
+                Intent intent = new Intent(binding.getRoot().getContext(), MainActivityTing.class);
                 intent.putExtra(getString(R.string.latitude), item.getLatitude());
                 intent.putExtra(getString(R.string.longitude), item.getLongitude());
                 intent.putExtra(getString(R.string.name), item.getName());
