@@ -51,8 +51,9 @@
 
     <ImageButton
         android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_fav"
         android:contentDescription="Add to favorites"
         android:padding="16dp"

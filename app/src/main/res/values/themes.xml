@@ -15,7 +15,6 @@
         <!-- Background color of the dialog window -->
         <item name="android:background">@color/gray</item>
         <item name="android:textColorPrimary">@color/white</item> <!-- Primary text color -->
-
     </style>
 
 

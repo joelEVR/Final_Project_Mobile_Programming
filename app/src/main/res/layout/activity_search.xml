@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".deezerAppJoel.DeezerMainActivity">
 
     <!-- Toolbar -->
@@ -11,14 +10,18 @@
         android:id="@+id/deezerMainToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4B534F"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
         app:title="@string/title_bar"
-        app:titleTextColor="#FFFFFF"
+        android:gravity="center_vertical"
+        android:background="#7A00BCD4"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+    </androidx.appcompat.widget.Toolbar>
+
+
 
     <!-- Search Input -->
     <com.google.android.material.textfield.TextInputLayout
@@ -30,25 +33,24 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner_view"
         app:hintEnabled="false"
-        app:startIconDrawable="@drawable/ic_search"
-        app:startIconContentDescription="Search"
-        app:layout_constraintTop_toBottomOf="@id/deezerMainToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/deezerMainToolbar"
+        app:startIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:minHeight="48dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:hint="@string/search_hint"
-            android:inputType="text"
             android:singleLine="true"
-            android:imeOptions="actionSearch" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

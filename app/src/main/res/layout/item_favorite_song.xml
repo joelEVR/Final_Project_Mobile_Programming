@@ -50,13 +50,14 @@
 
     <ImageButton
         android:id="@+id/deleteFavButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
-        android:contentDescription="Add to favorites"
-        android:padding="16dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical"
         android:background="?android:selectableItemBackground"
+        android:contentDescription="Add to favorites"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        android:layout_gravity="center_vertical" />
+        android:padding="16dp"
+        android:src="@drawable/ic_unfav" />
 
 </LinearLayout>

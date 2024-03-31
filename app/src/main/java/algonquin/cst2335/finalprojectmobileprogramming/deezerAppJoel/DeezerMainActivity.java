@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +35,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import algonquin.cst2335.finalprojectmobileprogramming.MainActivity;
 import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivitySearchBinding;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.PreviousSearchAdapter;
@@ -54,6 +57,7 @@ public class DeezerMainActivity extends AppCompatActivity implements PreviousSea
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Toolbar customToolbar = findViewById(R.id.deezerMainToolbar);
         setSupportActionBar(binding.deezerMainToolbar);
 
         // Set up RecyclerView
@@ -137,6 +141,11 @@ public class DeezerMainActivity extends AppCompatActivity implements PreviousSea
         if (item.getItemId() == R.id.action_help) {
             showHelpDialog();
             return true;
+        } else if (item.getItemId() == R.id.action_home) {
+            // Agrega aquí tu nueva acción para la opción "Home"
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            return true;
         } else if (item.getItemId() == R.id.fav_list) {
             Intent intent = new Intent(DeezerMainActivity.this, FavoriteSongsActivity.class);
             startActivity(intent);
@@ -178,7 +187,7 @@ public class DeezerMainActivity extends AppCompatActivity implements PreviousSea
 
     private void showHelpDialog() {
         // Obtén la lista de instrucciones desde los recursos
-        String[] instructionsArray = getResources().getStringArray(R.array.help_instructions);
+        String[] instructionsArray = getResources().getStringArray(R.array.help_instructions_main);
 
         // Infla el diseño personalizado
         View dialogView = getLayoutInflater().inflate(R.layout.custom_help_dialog, null);

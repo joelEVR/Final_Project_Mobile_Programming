@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">DeezerSongSearch</string>
     <string name="back_button_description">Back</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -14,7 +13,7 @@
     <string name="song_title">Song Title</string>
     <string name="no_artist_found">No artist found</string>
     <string name="error">Error</string>
-    <string name="song_list">Song List</string>
+    <string name="song_list">\u0020Song List</string>
     <string name="artist_list_toolbar">Artist List</string>
     <string name="error_fetching_top_tracks">Error fetching top tracks: %1$s</string>
     <string name="search_terms_key">searchTerms</string>
@@ -29,11 +28,29 @@
     <string name="deezer_api_url">https://api.deezer.com/artist/%1$d/top?limit=50</string>
     <string name="help_dialog_title">Instructions</string>
 
-    <string-array name="help_instructions">
+    <string-array name="help_instructions_main">
         <item>- Click on the heart to go to your favorite songs.</item>
         <item>- Type in the address bar to search for your favorite artist.</item>
         <item>- Clicking on a recent search item will automatically direct you to that artist.</item>
         <item>- If you want to delete a recent search, click on the X in front of the artist.</item>
     </string-array>
+    <string-array name="help_instructions_artist">
+        <item>- Tap the heart icon to access your favorite songs.</item>
+        <item>- Tap the arrow next to each artist to see their most popular songs.</item>
+        <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
+    </string-array>
+    <string-array name="help_instructions_song">
+        <item>- Tap the heart icon in the toolbar to access your favorite songs.</item>
+        <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
+        <item>- Tap the heart icon to add the song to your favorites.</item>
+        <item>- Tap the x icon to remove the song from your favorites.</item>
+    </string-array>
+    <string-array name="help_instructions_favorites">
+        <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
+        <item>- Tap the x icon to remove the song from your favorites.</item>
+    </string-array>
+
+
+
 
 </resources>

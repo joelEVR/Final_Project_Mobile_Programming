@@ -10,4 +10,9 @@
         android:icon="@android:drawable/ic_menu_help"
         android:title="help"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always"/>
 </menu>

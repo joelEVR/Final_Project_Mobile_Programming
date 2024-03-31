@@ -142,7 +142,7 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
 
         private void updateFavoriteButtonIcon(ImageButton favoriteButton, Song song) {
             if (isSongFavorite(song)) {
-                favoriteButton.setImageResource(R.drawable.ic_delete); // Set filled favorite icon
+                favoriteButton.setImageResource(R.drawable.ic_unfav); // Set filled favorite icon
             } else {
                 favoriteButton.setImageResource(R.drawable.ic_fav); // Set empty favorite icon
             }

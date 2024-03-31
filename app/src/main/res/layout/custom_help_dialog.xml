@@ -17,9 +17,8 @@
         android:id="@+id/list_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null"
-        android:paddingTop="16dp"
-        android:textColor="#000000" />
+        android:divider="@android:color/white"
+        android:paddingTop="16dp" />
 
     <Button
         android:id="@+id/button_ok"

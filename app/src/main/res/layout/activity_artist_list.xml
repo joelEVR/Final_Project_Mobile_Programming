@@ -9,7 +9,7 @@
         android:id="@+id/songListToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#4B534F"
+        android:background="#7A00BCD4"
         android:titleTextColor="@color/white"
         android:elevation="4dp"
 
