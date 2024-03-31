@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -155,14 +156,15 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (id != -1) {
                         String messageAddSong = context.getString(R.string.added_to_favorites, song.getTitle());
-                        Toast.makeText(context, messageAddSong, Toast.LENGTH_SHORT).show();
+                        Snackbar.make(favoriteButton, messageAddSong, Snackbar.LENGTH_SHORT).show();
                         updateFavoriteButtonIcon(favoriteButton, song);
                     } else {
-                        Toast.makeText(context, R.string.failed_to_add_song_to_favorites, Toast.LENGTH_SHORT).show();
+                        Snackbar.make(favoriteButton, R.string.failed_to_add_song_to_favorites, Snackbar.LENGTH_SHORT).show();
                     }
                 });
             });
         }
+
 
         private void deleteSongFromDatabase(Song song, ImageButton favoriteButton) {
             Executor thread = Executors.newSingleThreadExecutor();
