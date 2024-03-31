@@ -2,6 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="DeezerMainActivityTest">
+        <State />
+      </entry>
+      <entry key="FavoriteSongsFromArtist">
+        <State />
+      </entry>
+      <entry key="FavoritesSongs">
+        <State />
+      </entry>
+      <entry key="SongListTest">
+        <State />
+      </entry>
+      <entry key="Tests in 'algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel'">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

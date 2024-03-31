@@ -14,7 +14,6 @@
         app:title="@string/title_bar"
         android:gravity="center_vertical"
         android:background="#7A00BCD4"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +34,7 @@
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deezerMainToolbar"
-        app:startIconDrawable="@drawable/ic_search">
+        app:layout_constraintTop_toBottomOf="@id/deezerMainToolbar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextSearch"
@@ -46,13 +44,24 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:minHeight="48dp"
-            android:paddingStart="16dp"
+            android:paddingStart="36dp"
             android:paddingEnd="16dp"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/searchIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/textInputLayoutSearch"
+        app:layout_constraintStart_toStartOf="@id/textInputLayoutSearch"
+        app:layout_constraintTop_toTopOf="@id/textInputLayoutSearch"
+        app:layout_constraintVertical_bias="0.5" />
 
     <!-- Recent Searches Title -->
     <TextView
