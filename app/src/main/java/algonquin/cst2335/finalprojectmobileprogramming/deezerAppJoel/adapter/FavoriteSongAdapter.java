@@ -87,7 +87,7 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             albumCoverImageView = itemView.findViewById(R.id.albumCoverImageView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
+            titleTextView = itemView.findViewById(R.id.titleSongTextView);
             albumNameTextView = itemView.findViewById(R.id.albumNameTextView);
             durationTextView = itemView.findViewById(R.id.durationTextView);
             deleteButton = itemView.findViewById(R.id.deleteFavButton);
@@ -97,17 +97,18 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
     private String formatDuration(int duration) {
         int minutes = duration / 60;
         int seconds = duration % 60;
-        return String.format("%d:%02d", minutes, seconds);
+        return String.format(context.getString(R.string.duration_format), minutes, seconds);
     }
 
     private void showDeleteConfirmationDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
-        builder.setTitle("Confirm Deletion")
-                .setMessage("Are you sure you want to delete this song?")
-                .setPositiveButton("Delete", (dialog, which) -> deleteSong(position))
-                .setNegativeButton("Cancel", null)
+        builder.setTitle(context.getString(R.string.confirm_deletion))
+                .setMessage(context.getString(R.string.confirm_deletion_message))
+                .setPositiveButton(context.getString(R.string.delete), (dialog, which) -> deleteSong(position))
+                .setNegativeButton(context.getString(R.string.cancel), null)
                 .show();
     }
+
 
 
     public void deleteSong(int position) {
@@ -129,7 +130,7 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
         View dialogView = LayoutInflater.from(context).inflate(R.layout.song_detail_popup, null);
         builder.setView(dialogView);
 
-        TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
+        TextView titleTextView = dialogView.findViewById(R.id.titleSongTextView);
         TextView artistTextView = dialogView.findViewById(R.id.artistTextView);
         TextView durationTextView = dialogView.findViewById(R.id.durationTextView);
         TextView albumNameTextView = dialogView.findViewById(R.id.albumNameTextView);

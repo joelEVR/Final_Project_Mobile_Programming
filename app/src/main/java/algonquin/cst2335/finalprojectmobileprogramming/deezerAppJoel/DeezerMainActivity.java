@@ -1,5 +1,6 @@
 package algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -8,7 +9,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +39,7 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.Pre
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Artist;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.SearchResponse;
 
-public class SearchActivity extends AppCompatActivity implements PreviousSearchAdapter.OnDeleteClickListener,PreviousSearchAdapter.OnClickListener  {
+public class DeezerMainActivity extends AppCompatActivity implements PreviousSearchAdapter.OnDeleteClickListener,PreviousSearchAdapter.OnClickListener  {
 
     private ActivitySearchBinding binding;
     private SharedPreferences preferences;
@@ -49,7 +54,7 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.myToolbar);
+        setSupportActionBar(binding.deezerMainToolbar);
 
         // Set up RecyclerView
         adapter = new PreviousSearchAdapter(previousSearchTerms);
@@ -66,7 +71,8 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
         binding.editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
                     String searchTerm = binding.editTextSearch.getText().toString();
 
                     // Add the search term to the list
@@ -99,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
 
     private void saveSearchTermsToPreferences(List<String> searchTerms) {
         String searchTermsJson = new Gson().toJson(searchTerms);
-        preferences.edit().putString("searchTerms", searchTermsJson).apply();
+        preferences.edit().putString(getString(R.string.search_terms_key), searchTermsJson).apply();
     }
 
     private void displaySearchTerms() {
@@ -128,20 +134,19 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        if(item.getItemId() == R.id.fav_list){
-            // Start the FavoriteSongsActivity
-            Intent intent = new Intent(SearchActivity.this, FavoriteSongsActivity.class);
-            // Pass the list of favorite songs to the FavoriteSongsActivity
-            //   intent.putStringArrayListExtra("favoriteSongs", favoriteSongs); // Replace 'favoriteSongs' with your list
+        if (item.getItemId() == R.id.action_help) {
+            showHelpDialog();
+            return true;
+        } else if (item.getItemId() == R.id.fav_list) {
+            Intent intent = new Intent(DeezerMainActivity.this, FavoriteSongsActivity.class);
             startActivity(intent);
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
-
-
     }
+
+
     private void performSearch(final String searchTerm) {
         String url = "https://api.deezer.com/search/artist?q=" + Uri.encode(searchTerm);
 
@@ -154,20 +159,65 @@ public class SearchActivity extends AppCompatActivity implements PreviousSearchA
                         SearchResponse searchResponse = gson.fromJson(response, SearchResponse.class);
                         List<Artist> artists = searchResponse.getArtists();
                         if (artists != null && !artists.isEmpty()) {
-                            Intent intent = new Intent(SearchActivity.this, ArtistListActivity.class);
+                            Intent intent = new Intent(DeezerMainActivity.this, ArtistListActivity.class);
                             intent.putParcelableArrayListExtra("artists", new ArrayList<>(artists));
                             startActivity(intent);
                         } else {
-                            Toast.makeText(SearchActivity.this, "No artists found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DeezerMainActivity.this, getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SearchActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeezerMainActivity.this, getString(R.string.error) + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
         requestQueue.add(stringRequest);
     }
+
+    private void showHelpDialog() {
+        // Obtén la lista de instrucciones desde los recursos
+        String[] instructionsArray = getResources().getStringArray(R.array.help_instructions);
+
+        // Infla el diseño personalizado
+        View dialogView = getLayoutInflater().inflate(R.layout.custom_help_dialog, null);
+
+        // Obtiene las referencias a los elementos del diseño
+        TextView textTitle = dialogView.findViewById(R.id.text_title);
+        ListView listInstructions = dialogView.findViewById(R.id.list_instructions);
+        Button buttonOk = dialogView.findViewById(R.id.button_ok);
+
+        // Configura el título del diálogo
+        textTitle.setText(R.string.help_dialog_title);
+
+        // Configura un adaptador para la lista de instrucciones
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, instructionsArray);
+        listInstructions.setAdapter(adapter);
+
+        // Construye el AlertDialog con el diseño personalizado
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        // Crea y muestra el diálogo
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Configura el clic del botón "OK" para cerrar el diálogo
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
 }

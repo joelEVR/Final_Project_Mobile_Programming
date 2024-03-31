@@ -28,7 +28,7 @@
             android:exported="false" />
 
         <!-- SearchActivity configurada para ser el punto de entrada de la aplicación -->
-        <activity android:name="algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.SearchActivity"
+        <activity android:name="algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.DeezerMainActivity"
             android:exported="true">
 
             <intent-filter>

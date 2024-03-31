@@ -91,7 +91,7 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 albumCoverImageView = itemView.findViewById(R.id.albumCoverImageView);
-                titleTextView = itemView.findViewById(R.id.titleTextView);
+                titleTextView = itemView.findViewById(R.id.titleSongTextView);
                 albumNameTextView = itemView.findViewById(R.id.albumNameTextView);
                 durationTextView = itemView.findViewById(R.id.durationTextView);
                 favoriteButton = itemView.findViewById(R.id.favoriteButton);
@@ -154,10 +154,11 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
                 long id = songDatabase.songDAO().insertSong(song);
                 new Handler(Looper.getMainLooper()).post(() -> {
                     if (id != -1) {
-                        Toast.makeText(context, song.getTitle()+" added to favorites", Toast.LENGTH_SHORT).show();
+                        String messageAddSong = context.getString(R.string.added_to_favorites, song.getTitle());
+                        Toast.makeText(context, messageAddSong, Toast.LENGTH_SHORT).show();
                         updateFavoriteButtonIcon(favoriteButton, song);
                     } else {
-                        Toast.makeText(context, "Failed to add song to favorites", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.failed_to_add_song_to_favorites, Toast.LENGTH_SHORT).show();
                     }
                 });
             });
@@ -168,7 +169,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             thread.execute(() -> {
                 songDatabase.songDAO().deleteSong(song);
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    Toast.makeText(context, song.getTitle()+" removed from favorites", Toast.LENGTH_SHORT).show();
+                    String messageDeleteSong = context.getString(R.string.deleted_from_favorites, song.getTitle());
+                    Toast.makeText(context, messageDeleteSong, Toast.LENGTH_SHORT).show();
                     updateFavoriteButtonIcon(favoriteButton, song);
                 });
             });
@@ -179,7 +181,7 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             View dialogView = LayoutInflater.from(context).inflate(R.layout.song_detail_popup, null);
             builder.setView(dialogView);
 
-            TextView titleTextView = dialogView.findViewById(R.id.titleTextView);
+            TextView titleTextView = dialogView.findViewById(R.id.titleSongTextView);
             TextView artistTextView = dialogView.findViewById(R.id.artistTextView);
             TextView durationTextView = dialogView.findViewById(R.id.durationTextView);
             TextView albumNameTextView = dialogView.findViewById(R.id.albumNameTextView);

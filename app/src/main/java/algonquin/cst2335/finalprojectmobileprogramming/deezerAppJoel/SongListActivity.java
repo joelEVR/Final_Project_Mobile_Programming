@@ -25,12 +25,12 @@ public class SongListActivity extends AppCompatActivity {
         ArrayList<Song> songs = getIntent().getParcelableArrayListExtra("songs");
 
         // Initialize Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.songListToolBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         String artistName = getIntent().getStringExtra("artistName");
-        getSupportActionBar().setTitle(artistName+" Song List");
+        getSupportActionBar().setTitle(artistName+ getString(R.string.song_list));
 
         // Set up RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerViewSongs);

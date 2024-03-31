@@ -3,17 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".deezerAppJoel.SearchActivity">
+    android:background="@color/black"
+    tools:context=".deezerAppJoel.DeezerMainActivity">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/myToolbar"
+        android:id="@+id/deezerMainToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#4B534F"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Deezer song API"
+        app:title="@string/title_bar"
         app:titleTextColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +32,7 @@
         app:hintEnabled="false"
         app:startIconDrawable="@drawable/ic_search"
         app:startIconContentDescription="Search"
-        app:layout_constraintTop_toBottomOf="@id/myToolbar"
+        app:layout_constraintTop_toBottomOf="@id/deezerMainToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -44,7 +45,7 @@
             android:minHeight="48dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:hint="Search"
+            android:hint="@string/search_hint"
             android:inputType="text"
             android:singleLine="true"
             android:imeOptions="actionSearch" />
@@ -56,7 +57,7 @@
         android:id="@+id/textViewRecentSearches"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recent Searches"
+        android:text="@string/recent_searches"
         android:textFontWeight="@integer/material_motion_duration_medium_1"
         android:textSize="18sp"
         android:layout_marginStart="16dp"

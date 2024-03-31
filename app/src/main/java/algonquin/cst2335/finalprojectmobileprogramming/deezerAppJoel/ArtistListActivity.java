@@ -38,11 +38,11 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
         setContentView(R.layout.activity_artist_list);
 
         // Initialize Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.songListToolBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Artist List");
+        getSupportActionBar().setTitle(getString(R.string.artist_list_toolbar));
 
         // Initialize RecyclerView and artists list
         recyclerView = findViewById(R.id.recyclerArtistView);
@@ -52,7 +52,7 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
-            Toast.makeText(this, "No artists found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_artist_found), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,7 +102,7 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ArtistListActivity.this, "Error fetching top tracks: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ArtistListActivity.this,getString(R.string.error_fetching_top_tracks) + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         // Asegúrate de que tienes una instancia de RequestQueue y añade la solicitud

@@ -30,11 +30,11 @@ public class FavoriteSongsActivity extends AppCompatActivity {
         // Initialize the database instance
         songDatabase = SongDatabase.getInstance(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.songListToolBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Favorite Songs");
+        getSupportActionBar().setTitle(getString(R.string.favorite_songs));
 
         // Set up RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerViewFavSongs);

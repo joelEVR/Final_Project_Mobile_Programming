@@ -32,7 +32,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_artist, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_artist, parent, false);
         return new ViewHolder(view, onViewSongButtonClickListener);
     }
 
@@ -56,7 +56,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView, OnViewSongButtonClickListener onViewSongButtonClickListener) {
             super(itemView);
-            artistImageView = itemView.findViewById(R.id.pictureImageView);
+            artistImageView = itemView.findViewById(R.id.pictureArtist);
             artistNameTextView = itemView.findViewById(R.id.nameTextView);
             viewSongButtonImageView = itemView.findViewById(R.id.viewSongButtonImageView);
             this.onViewSongButtonClickListener = onViewSongButtonClickListener;
