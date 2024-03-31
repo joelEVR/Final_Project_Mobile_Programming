@@ -2,7 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="MainActivity">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="mainActivityTest2()">
+        <State />
+      </entry>
+      <entry key="testSaveLocationToFavorites()">
+        <State />
+      </entry>
+      <entry key="testSaveLocationToFavorites() (1)">
+        <State />
+      </entry>
+      <entry key="testSunriseSunsetLookup()">
         <State />
       </entry>
     </value>

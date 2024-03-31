@@ -1,3 +1,11 @@
+/**
+ * Student Name: Ting Cheng
+ * Professor: Samira Ouaaz
+ * Due Date: Apr. 1,2024
+ * Description:  CST2355-031 FinalAssignment
+ * Section: 031
+ * Modify Date: Mar. 31,2024
+ */
 package algonquin.cst2335.finalprojectmobileprogramming;
 
 import android.app.AlertDialog;
@@ -29,11 +37,30 @@ import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityFavor
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainBinding;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.LocationItemBinding;
 
+/**
+ * This activity represents the favorites screen of the application, where users can view,
+ * search, and delete their saved locations. It utilizes a RecyclerView to list the saved locations,
+ * and allows deletion of individual items or all items at once. Users can also return to the main screen
+ * by selecting a location, which will populate the search fields with that location's data.
+ *
+ * @author Ting Cheng
+ * @version 3.0
+ * @since 2024-03-22
+ */
 public class FavoriteActivity extends AppCompatActivity {
+    /**
+     * Binding instance for interacting with the FavoriteActivity layout views.
+     */
     ActivityFavoriteBinding binding;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
+    /**
+     * The adapter for the RecyclerView, responsible for binding data to views.
+     */
     private List<LocationItem> locationItems = new ArrayList<>();
+    /**
+     * A list holding the saved locations displayed in the RecyclerView.
+     */
     private final Executor executor = Executors.newSingleThreadExecutor();
 
 
@@ -101,8 +128,9 @@ public class FavoriteActivity extends AppCompatActivity {
         });
     }
 
-
-    // Define loadLocationsFromDatabase calling in onCreate()
+    /**
+     * Loads the saved locations from the database and updates the RecyclerView which called in onCreate()
+     */
     private void loadLocationsFromDatabase() {
         new Thread(() -> {
             // To avoid creating multiple database instances, use the singleton mode
@@ -116,16 +144,50 @@ public class FavoriteActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * An interface defining a callback method to be invoked when a location item is deleted.
+     * This allows communication between the {@link MyViewHolder}
+     * and the containing {@link FavoriteActivity}
+     * to handle the deletion of a location item from the RecyclerView and database.
+     */
     // VERY IMPORTANT interface!!! USING IN MyViewHolder
     public interface OnLocationItemDeleted {
+        /**
+         * Callback method to be invoked when a location item is deleted.
+         *
+         * @param position The position of the item in the adapter's data set that was deleted.
+         */
         void onItemDeleted(int position);
     }
 
     // Key Components -- MyViewHolder!!!!
+    /**
+     * {@link RecyclerView.ViewHolder} subclass used for displaying individual location items
+     * within a {@link RecyclerView} in {@link FavoriteActivity}. This class binds location data to the views
+     * defined in the {@link LocationItemBinding} layout and sets up click listeners for interactions,
+     * such as clicking on a location item to navigate back to the {@link MainActivity} with the item's data.
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * The binding for accessing the layout's views for a single location item.
+         * It allows direct interaction with the views defined in the corresponding XML layout file,
+         * enabling the setting of text, onClickListeners, and other properties.
+         */
         private final LocationItemBinding binding;
+        /**
+         * A callback interface instance for handling deletion events of location items.
+         * This interface method is invoked when the delete button within a location item view is clicked,
+         * signaling to the containing activity or fragment that the item should be removed from both the
+         * RecyclerView adapter's dataset and the underlying data source, such as a database or a remote server.
+         */
         private final OnLocationItemDeleted deleteCallback;
 
+        /**
+         * Constructs a new {@link MyViewHolder} instance.
+         *
+         * @param binding        The {@link LocationItemBinding} for the location item layout.
+         * @param deleteCallback The callback to be invoked when the delete button is clicked.
+         */
         public MyViewHolder(LocationItemBinding binding, OnLocationItemDeleted deleteCallback) {
             super(binding.getRoot());
             this.binding = binding;
@@ -133,6 +195,14 @@ public class FavoriteActivity extends AppCompatActivity {
         }
 
         // VERY Special Handler!!!!!!!!!
+        /**
+         * Binds a {@link LocationItem} to the view holder, setting the location's name, latitude,
+         * and longitude to the respective TextViews. Also sets up a click listener on the delete button
+         * to handle the deletion of the location item.
+         *
+         * @param item     The {@link LocationItem} to be displayed.
+         * @param position The position of the item in the data set.
+         */
         void bind(LocationItem item, int position) {
             binding.name.setText(item.getName());
             binding.latitude.setText(String.valueOf(item.getLatitude()));
@@ -154,11 +224,6 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
 
-    // USELESS!!Defines an interface to handle the deletion of location items
-    public interface LocationItemListener {
-        void onDeleteLocation(LocationItem item);
-    }
-
     // onCreateOptionsMenu + onOptionsItemSelected to handle Menu events
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -179,8 +244,10 @@ public class FavoriteActivity extends AppCompatActivity {
         return true;
     }
 
-
     // ShowConfirmDeleteDialog + deleteAllLocations to realize DeleteAll events
+    /**
+     * Shows a dialog to confirm the deletion of all saved locations.
+     */
     private void showConfirmDeleteDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.clear_locations))
@@ -194,6 +261,9 @@ public class FavoriteActivity extends AppCompatActivity {
                 .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
+    /**
+     * Deletes all saved locations from the database and updates the UI.
+     */
     private void deleteAllLocations() {
         new Thread(() -> {
             LocationDatabase db = LocationDatabase.getDatabase(getApplicationContext());
@@ -208,6 +278,11 @@ public class FavoriteActivity extends AppCompatActivity {
 
 
     // filterLocations + updateAdapterData to realize KeywordSearch
+    /**
+     * Filters the displayed locations based on the given query string.
+     *
+     * @param query The search query to filter the locations.
+     */
     private void filterLocations(String query) {
         List<LocationItem> filteredList = new ArrayList<>();
         for (LocationItem item : locationItems) {
@@ -219,6 +294,11 @@ public class FavoriteActivity extends AppCompatActivity {
         // Update adapter data and refresh RecyclerView
         updateAdapterData(filteredList);
     }
+    /**
+     * Updates the data set of the adapter and refreshes the RecyclerView.
+     *
+     * @param filteredList The list of locations that match the search query.
+     */
     private void updateAdapterData(List<LocationItem> filteredList) {
         locationItems.clear();
         locationItems.addAll(filteredList);

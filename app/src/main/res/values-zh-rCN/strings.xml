@@ -20,7 +20,8 @@
     <string name="showFavorites">查看收藏</string>
     <string name="location_not_null">位置名称不能为空</string>
     <string name="location_saved">位置已存</string>
-    <string name="content_clear">Contents cleared.</string>
+    <string name="content_clear">内容已清空。</string>
+
     <string name="search_locations">根据地名搜索</string>
     <string name="main_instruction">主界面使用说明</string>
     <string name="location_instruction">保存界面使用指南</string>

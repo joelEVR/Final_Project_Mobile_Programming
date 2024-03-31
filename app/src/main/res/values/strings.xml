@@ -29,7 +29,7 @@
     <string name="showFavorites">Show Favorites</string>
     <string name="all_delete">Delete All Favorite city</string>
     <string name="search_locations">Search Saved locations by locationName</string>
-    <string name="content_clear">内容已清空</string>
+    <string name="content_clear">Contents cleared.</string>
 
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
@@ -46,7 +46,7 @@
     <string name="sunrise">sunrise</string>
     <string name="sunset">sunset</string>
     <string name="result_format">Location Name: %s\nLatitude: %s\nLongitude: %s\nSunrise: %s\nSunset: %s</string>
-    <string name="OK">OK</string>
+    <string name="OK" translatable="false">OK</string>
     <string name="retrieve_data_fail">Retrieve Data Fail.</string>
     <string name="phase_data_error">Phase Data Error.</string>
     <string name="request_fail">Request Fail</string>

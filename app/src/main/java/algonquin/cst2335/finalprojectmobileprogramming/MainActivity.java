@@ -1,3 +1,11 @@
+/**
+ * Student Name: Ting Cheng
+ * Professor: Samira Ouaaz
+ * Due Date: Apr. 1,2024
+ * Description:  CST2355-031 FinalAssignment
+ * Section: 031
+ * Modify Date: Mar. 31,2024
+ */
 package algonquin.cst2335.finalprojectmobileprogramming;
 
 import android.content.Intent;
@@ -31,12 +39,35 @@ import algonquin.cst2335.finalprojectmobileprogramming.data.LocationDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.data.LocationItem;
 import algonquin.cst2335.finalprojectmobileprogramming.databinding.ActivityMainBinding;
 
-
+/**
+ * MainActivity of the application, handling the user interface for sunrise and sunset lookups.
+ * <p>
+ * This class provides functionalities for users to input latitude and longitude,
+ * perform lookup for sunrise and sunset times, save locations to favorites, and
+ * view saved locations. It utilizes the Volley library for network requests and
+ * SharedPreferences for storing the user's last search.
+ * </p>
+ *
+ * @author Ting Chneg
+ * @version 3.0
+ * @since 2024-03-22
+ */
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     * Binding instance for interacting with the MainActivity layout views.
+     */
     private ActivityMainBinding binding;
+    /**
+     * Variable to store the name of the location. This is used to display the location name
+     * in the UI and save it along with latitude and longitude in the database.
+     */
     private String locationName; // CLASS variable !!!!
 
+    /**
+     * Called when the activity is first created. Initializes the UI and sets up event listeners.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Performs the lookup for sunrise and sunset times.
+     * This method constructs the request URL, makes the network request, and handles the response data.
+     */
     // KEY STEP!!! CONNECT network to retrieve Lookup result
     private void performSunriseSunsetLookup() {
         String latitude = binding.editTextLatitude.getText().toString().trim();
@@ -164,16 +199,23 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
 
     }
+
+    /**
+     * Converts UTC time to local time format.
+     *
+     * @param utcTime The UTC time string to be converted.
+     * @return The converted local time string.
+     */
     // Whether to need this conversion ????
     private String convertUTCToLocalTime(String utcTime) {
         try {
             // Parse the time format returned by the API (解析API返回的时间格式)
-            SimpleDateFormat utcFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.US);
+            SimpleDateFormat utcFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.CANADA);
             utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = utcFormat.parse(utcTime);
 
             // Convert to local time format (转换为本地时间格式)
-            SimpleDateFormat localFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.US);
+            SimpleDateFormat localFormat = new SimpleDateFormat(getString(R.string.time_format), Locale.CANADA);
             localFormat.setTimeZone(TimeZone.getDefault());
             return localFormat.format(date);
         } catch (ParseException e) {
@@ -182,8 +224,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // Save the current search query to SharedPreferences
+    /**
+     * Saves the current query to SharedPreferences.
+     *
+     * @param latitude The latitude string.
+     * @param longitude The longitude string.
+     * @param locationName The name of the location.
+     */
     private void saveLastSearch(String latitude, String longitude,String locationName) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -192,7 +239,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(getString(R.string.location_name), locationName);
         editor.apply();
     }
-    // Load the last search query from SharedPreferences
+    /**
+     * Loads the last search from SharedPreferences.
+     */
     private void loadLastSearch() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         String latitude = prefs.getString(getString(R.string.latitude), "");
@@ -228,13 +277,17 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    // Display the instruction by Toast Message
+    /**
+     * Display the instruction by Toast Message.
+     */
     private void showHelpToast() {
         String helpText = getString(R.string.MainActivity_Instruction);
         Toast.makeText(this, helpText, Toast.LENGTH_LONG).show();
     }
 
-
+    /**
+     * Saves the location information to the database.
+     */
     // KEY STEP!!! Save Location to transfer to Database
     private void saveLocation() {
         // NO need to get the locationName here! Use the class level variable locationName
