@@ -23,8 +23,26 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.SongAdapter;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
 
+/**
+ * Displays a list of songs for a selected artist. Users can view song details and navigate
+ * to additional functionalities such as viewing favorite songs. This activity receives a list
+ * of songs from {@link ArtistListActivity} and displays them using a {@link RecyclerView}.
+ *
+ * @author Joel Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate (please insert the creation date here, e.g., "April 16, 2023")
+ */
 public class SongListActivity extends AppCompatActivity {
     private SongAdapter adapter;
+
+    /**
+     * Initializes the activity, sets up the toolbar, and prepares the RecyclerView
+     * for displaying the list of songs.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                           being shut down then this Bundle contains the data it most
+     *                           recently supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +69,12 @@ public class SongListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Inflates the options menu when the activity is created.
+     *
+     * @param menu The options menu in which items are placed.
+     * @return True for the menu to be displayed; false if it should not be shown.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -58,6 +82,12 @@ public class SongListActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles action bar item clicks here.
+     *
+     * @param item The menu item that was selected.
+     * @return False to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -80,6 +110,10 @@ public class SongListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays a help dialog with instructions on how to use the song list feature.
+     * The dialog lists instructions defined in the resources.
+     */
     private void showHelpDialog() {
         // Obtén la lista de instrucciones desde los recursos
         String[] instructionsArray = getResources().getStringArray(R.array.help_instructions_song);

@@ -13,32 +13,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algonquin.cst2335.finalprojectmobileprogramming.R;
+/**
+ * Adapter for displaying a list of previous search terms in a RecyclerView.
+ * Allows users to interact with search terms by clicking on an item to re-execute the search
+ * or by clicking a delete icon to remove the search term from the list.
+ *
+ * Includes interfaces for delete and item click listeners to allow the calling activity
+ * or fragment to define specific behaviors for these actions.
+ *
+ * @author Joel Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate Insert the creation date here (e.g., "April 17, 2023")
+ */
 public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAdapter.ViewHolder> {
 
+    /**
+     * List of search terms to be displayed.
+     */
     private ArrayList<String> searchTerms;
-    private OnDeleteClickListener onDeleteClickListener; // Add interface reference
+
+    /**
+     * Listener for delete button click events.
+     */
+    private OnDeleteClickListener onDeleteClickListener;
+
+    /**
+     * Listener for item click events.
+     */
     private OnClickListener onClickListener;
 
+    /**
+     * Constructs a new adapter with the specified list of search terms.
+     *
+     * @param searchTerms The list of search terms to display.
+     */
     public PreviousSearchAdapter(ArrayList<String> searchTerms) {
         this.searchTerms = searchTerms;
     }
 
-    // Define interface for delete click listener
+    /**
+     * Interface definition for a callback to be invoked when the delete button is clicked.
+     */
     public interface OnDeleteClickListener {
         void onDeleteClick(String searchTerm);
     }
 
-    // Set delete click listener
+    /**
+     * Sets the listener for delete button click events.
+     *
+     * @param listener The listener to set.
+     */
     public void setOnDeleteClickListener(OnDeleteClickListener listener) {
         onDeleteClickListener = listener;
     }
 
-    // Define interface for item click listener
+    /**
+     * Interface definition for a callback to be invoked when an item is clicked.
+     */
     public interface OnClickListener {
         void onItemClick(String searchTerm);
     }
 
-    // Set item click listener
+    /**
+     * Sets the listener for item click events.
+     *
+     * @param listener The listener to set.
+     */
     public void setOnClickListener(OnClickListener listener) {
         onClickListener = listener;
     }
@@ -80,12 +120,21 @@ public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAd
         return searchTerms.size();
     }
 
+    /**
+     * Updates the list of search terms displayed by the adapter.
+     *
+     * @param newSearchTerms The new list of search terms to display.
+     */
     public void setData(List<String> newSearchTerms) {
         searchTerms.clear();
         searchTerms.addAll(newSearchTerms);
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class for previous search terms items.
+     * Holds references to the text view and delete image view for each item.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewPreviousSearch;
         ImageView imageViewDelete;

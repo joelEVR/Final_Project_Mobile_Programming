@@ -47,4 +47,5 @@
         <item>- Toca la flecha en la barra de herramientas para volver a la pantalla anterior.</item>
         <item>- Toca el icono de la x para quitar la canción de tus favoritos.</item>
     </string-array>
+    <string name="removed_from_favorites">Borrado de favoritos</string>
 </resources>

@@ -9,7 +9,7 @@ import java.util.List;
 
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
  @Dao
-    public interface SongDAO {
+ public interface SongDAO {
 
         @Insert
         long insertSong(Song song);

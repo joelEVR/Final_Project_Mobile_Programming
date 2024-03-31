@@ -34,10 +34,32 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Arti
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.TopTracksResponse;
 
+/**
+ * Displays a list of artists retrieved from the Deezer API.
+ * This activity presents a RecyclerView populated with artists and provides functionality
+ * to view the top tracks of a selected artist. It includes menu options to navigate
+ * back home, view favorites, and access help information.
+ *
+ * Implements {@link ArtistAdapter.OnViewSongButtonClickListener} to handle song view requests.
+ * Utilizes Volley for network requests and Gson for JSON parsing.
+ *
+ * @author Joel Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate (please insert the creation date here, e.g., "April 14, 2023")
+ */
 public class ArtistListActivity extends AppCompatActivity implements ArtistAdapter.OnViewSongButtonClickListener {
 
+    /**
+     * RecyclerView for displaying the list of artists.
+     */
     private RecyclerView recyclerView;
+    /**
+     * Adapter for the RecyclerView to display artists.
+     */
     private ArtistAdapter adapter;
+    /**
+     * List of Artist objects to be displayed.
+     */
     private ArrayList<Artist> artists;
 
     @Override
@@ -87,6 +109,13 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
     }
 
 
+    /**
+     * Callback method defined in {@link ArtistAdapter.OnViewSongButtonClickListener}.
+     * Invoked when the view song button is clicked for an artist.
+     * Initiates fetching of the artist's top tracks.
+     *
+     * @param position The position of the artist in the adapter's data set.
+     */
     @Override
     public void onViewSongButtonClick(int position) {
         Artist artist = artists.get(position);
@@ -95,6 +124,14 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
         fetchTopTracks(artistId,artistName);
     }
 
+    /**
+     * Fetches the top tracks for a specified artist using the Deezer API.
+     * Populates a list of Song objects and starts {@link SongListActivity}
+     * to display the top tracks.
+     *
+     * @param artistId The Deezer ID of the artist.
+     * @param artistName The name of the artist.
+     */
     private void fetchTopTracks(final int artistId, final String artistName) {
         String url = "https://api.deezer.com/artist/" + artistId + "/top?limit=50";
 
@@ -138,6 +175,10 @@ public class ArtistListActivity extends AppCompatActivity implements ArtistAdapt
         return true;
     }
 
+    /**
+     * Displays a custom help dialog.
+     * The dialog includes a list of instructions on how to use the application.
+     */
     private void showHelpDialog() {
         // Obtén la lista de instrucciones desde los recursos
         String[] instructionsArray = getResources().getStringArray(R.array.help_instructions_artist);

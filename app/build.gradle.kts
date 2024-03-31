@@ -33,6 +33,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -44,7 +45,13 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.google.firebase:firebase-firestore:24.11.0")
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    implementation("androidx.annotation:annotation:1.7.1")
+    implementation(fileTree(mapOf(
+        "dir" to "C:\\Users\\joesv\\AppData\\Local\\Android\\Sdk\\platforms\\android-34",
+        "include" to listOf("*.aar", "*.jar"),
+    )))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

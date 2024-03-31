@@ -26,10 +26,26 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.adapter.FavoriteSongAdapter;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.dao.SongDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
+/**
+ * Activity for displaying and managing the user's favorite songs.
+ * Users can view their list of favorite songs saved in the local database.
+ * This activity utilizes a {@link RecyclerView} to list the favorite songs and provides
+ * functionality to interact with these songs, including viewing detailed information.
+ *
+ * @author Joel Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate (please insert the creation date here, e.g., "April 15, 2023")
+ */
 public class FavoriteSongsActivity extends AppCompatActivity {
 
+    /**
+     * Database instance for accessing favorite songs stored in the local database.
+     */
     private SongDatabase songDatabase;
-    private FavoriteSongAdapter adapter; // Declare adapter field
+    /**
+     * Adapter for the RecyclerView that displays the list of favorite songs.
+     */
+    private FavoriteSongAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +79,12 @@ public class FavoriteSongsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inflates the options menu.
+     *
+     * @param menu The options menu in which menu items are placed.
+     * @return True for the menu to be displayed; false will not show the menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -70,6 +92,12 @@ public class FavoriteSongsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles action bar item clicks.
+     *
+     * @param item The menu item that was selected.
+     * @return Boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -88,6 +116,10 @@ public class FavoriteSongsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays a help dialog to the user.
+     * The dialog contains instructions on how to use the favorite songs functionality.
+     */
     private void showHelpDialog() {
         // Obtén la lista de instrucciones desde los recursos
         String[] instructionsArray = getResources().getStringArray(R.array.help_instructions_favorites);

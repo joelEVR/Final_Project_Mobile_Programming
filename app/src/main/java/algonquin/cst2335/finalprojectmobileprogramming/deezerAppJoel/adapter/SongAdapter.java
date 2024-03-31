@@ -31,6 +31,16 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.dao.SongDatabase;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song;
 
+/**
+ * Adapter for displaying a list of songs in a RecyclerView.
+ * This adapter supports operations such as displaying song details, toggling a song's favorite status,
+ * and showing a detailed popup for each song. It utilizes Picasso for image loading and manages
+ * song favorites within a local database.
+ *
+ * @author Joel Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate Please insert the creation date here (e.g., "April 18, 2023")
+ */
     public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
         private static final String TAG = "SongAdapter";
@@ -39,6 +49,13 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
         private ArrayList<Song> songs;
         private SongDatabase songDatabase;
         private AlertDialog dialog;
+
+    /**
+     * Constructs a new SongAdapter.
+     *
+     * @param context Context for accessing resources and performing UI updates.
+     * @param songs List of Song objects to be displayed by the adapter.
+     */
         public SongAdapter(Context context, ArrayList<Song> songs) {
             this.context = context;
             this.songs = songs;
@@ -99,12 +116,24 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             }
         }
 
+    /**
+     * Formats a song duration from seconds to a mm:ss string.
+     *
+     * @param duration The song's duration in seconds.
+     * @return A formatted string representing the duration.
+     */
         private String formatDuration(int duration) {
             int minutes = duration / 60;
             int seconds = duration % 60;
             return String.format("%d:%02d", minutes, seconds);
         }
 
+    /**
+     * Toggles the favorite status of a song.
+     *
+     * @param song The song whose favorite status is to be toggled.
+     * @param favoriteButton The ImageButton representing the favorite toggle button.
+     */
         private void toggleFavorite(Song song, ImageButton favoriteButton) {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
@@ -120,6 +149,12 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             executor.shutdown();
         }
 
+    /**
+     * Checks if a song is marked as favorite in the database.
+     *
+     * @param song The song to check.
+     * @return true if the song is a favorite, false otherwise.
+     */
         private boolean isSongFavorite(Song song) {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Future<Boolean> future = executor.submit(() -> {
@@ -141,6 +176,12 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             }
         }
 
+    /**
+     * Updates the favorite button icon based on the song's favorite status.
+     *
+     * @param favoriteButton The ImageButton representing the favorite toggle button.
+     * @param song The song whose favorite status determines the icon.
+     */
         private void updateFavoriteButtonIcon(ImageButton favoriteButton, Song song) {
             if (isSongFavorite(song)) {
                 favoriteButton.setImageResource(R.drawable.ic_unfav); // Set filled favorite icon
@@ -149,6 +190,12 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             }
         }
 
+    /**
+     * Adds a song to the favorites in the database.
+     *
+     * @param song The song to be added to favorites.
+     * @param favoriteButton The ImageButton representing the favorite toggle button.
+     */
         private void addSongToDatabase(Song song, ImageButton favoriteButton) {
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() -> {
@@ -165,7 +212,12 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             });
         }
 
-
+    /**
+     * Deletes a song from the favorites in the database.
+     *
+     * @param song The song to be removed from favorites.
+     * @param favoriteButton The ImageButton representing the favorite toggle button.
+     */
         private void deleteSongFromDatabase(Song song, ImageButton favoriteButton) {
             Executor thread = Executors.newSingleThreadExecutor();
             thread.execute(() -> {
@@ -178,6 +230,11 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
             });
         }
 
+    /**
+     * Shows a popup dialog with detailed information about a song.
+     *
+     * @param song The song for which details are to be displayed.
+     */
         private void showSongDetailPopup(Song song) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
             View dialogView = LayoutInflater.from(context).inflate(R.layout.song_detail_popup, null);

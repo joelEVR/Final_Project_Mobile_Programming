@@ -17,12 +17,30 @@ import java.util.ArrayList;
 import algonquin.cst2335.finalprojectmobileprogramming.R;
 import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Artist;
 
+/**
+ * Adapter class for displaying a list of artists in a RecyclerView.
+ * Each item in the list shows the artist's name and image, and includes a button to view the artist's top songs.
+ * Uses Picasso for efficient image loading and caching.
+ *
+ * This adapter also defines a custom listener interface to handle button clicks for viewing an artist's songs.
+ *
+ * @author Joan Esteban Velasquez Rodriguez
+ * @labSection 031
+ * @creationDate (Insert the actual creation date here, e.g., "April 20, 2023")
+ */
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Artist> artists;
     private OnViewSongButtonClickListener onViewSongButtonClickListener;
 
+    /**
+     * Constructs a new ArtistAdapter.
+     *
+     * @param context The current context.
+     * @param artists A list of Artist objects to be displayed.
+     * @param onViewSongButtonClickListener A listener for click events on the "view songs" button.
+     */
     public ArtistAdapter(Context context, ArrayList<Artist> artists, OnViewSongButtonClickListener onViewSongButtonClickListener) {
         this.context = context;
         this.artists = artists;
@@ -48,12 +66,21 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return artists.size();
     }
 
+    /**
+     * ViewHolder class for artist items. It also implements the View.OnClickListener to handle click events.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView artistImageView;
         TextView artistNameTextView;
         ImageView viewSongButtonImageView;
         OnViewSongButtonClickListener onViewSongButtonClickListener;
 
+        /**
+         * Constructs a ViewHolder for artist items.
+         *
+         * @param itemView The view inflated in onCreateViewHolder method.
+         * @param onViewSongButtonClickListener The click listener passed from the adapter.
+         */
         public ViewHolder(@NonNull View itemView, OnViewSongButtonClickListener onViewSongButtonClickListener) {
             super(itemView);
             artistImageView = itemView.findViewById(R.id.pictureArtist);
@@ -71,8 +98,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             }
         }
     }
-
+    /**
+     * Interface for handling click events on the "view songs" button within an artist item.
+     */
     public interface OnViewSongButtonClickListener {
+        /**
+         * Callback method to be invoked when the "view songs" button is clicked.
+         *
+         * @param position The adapter position of the clicked artist item.
+         */
         void onViewSongButtonClick(int position);
     }
 }
