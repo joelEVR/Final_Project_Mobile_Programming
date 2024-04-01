@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -295,7 +296,7 @@ public class MainActivityTing extends AppCompatActivity {
         double longitude = Double.parseDouble(binding.editTextLongitude.getText().toString().trim());
         // Check whether the location name is empty
         if(locationName.isEmpty()) {
-            Toast.makeText(MainActivityTing.this, getString(R.string.location_not_null), Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.editTextLocationName), getString(R.string.location_not_null), Snackbar.LENGTH_SHORT).show();
             return;
         }
         // create Location object and store in database

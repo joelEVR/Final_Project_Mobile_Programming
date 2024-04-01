@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:text="@string/recent_searches_dz"
         android:textFontWeight="@integer/material_motion_duration_medium_1"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"

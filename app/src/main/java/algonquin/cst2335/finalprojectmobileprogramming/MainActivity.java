@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.samuel) {
             // Agrega aquí tu nueva acción para la opción "Home"
-            Intent intent = new Intent(this, FavoriteActivity.class);
+            Intent intent = new Intent(this, DictionaryActivity.class);
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.joel) {
