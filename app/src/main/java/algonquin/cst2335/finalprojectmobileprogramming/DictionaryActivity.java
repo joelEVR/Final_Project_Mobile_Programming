@@ -1,11 +1,13 @@
 package algonquin.cst2335.finalprojectmobileprogramming;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -332,46 +334,34 @@ public class DictionaryActivity extends AppCompatActivity {
     }
 
     //Toolbar Menu items
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.my_menu, menu);
-//        super.onCreateOptionsMenu(menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.dictionaryIcon) {
-//            Intent dictionaryPage = new Intent(DictionaryActivity.this, DictionaryActivity.class);
-//            startActivity(dictionaryPage);
-//            return true;
-//        } else if (item.getItemId() == R.id.recipeIcon) {
-//            Intent recipePage = new Intent(DictionaryActivity.this, RecipeActivity.class);
-//            startActivity(recipePage);
-//            return true;
-//        } else if (item.getItemId() == R.id.sunIcon) {
-//            Intent sunPage = new Intent(DictionaryActivity.this, SunActivity.class);
-//            startActivity(sunPage);
-//            return true;
-//        } else if (item.getItemId() == R.id.songIcon) {
-//            Intent songPage = new Intent(DictionaryActivity.this, SongActivity.class);
-//            startActivity(songPage);
-//            return true;
-//
-//        } else if (item.getItemId() == R.id.help_Icon) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("Help");
-//            builder.setMessage("Instructions for using the Dictionary API:\n\n" +
-//                    "1. Enter a word to look up the definition.\n" +
-//                    "2. Definitions will be displayed in a RecyclerView.\n" +
-//                    "3. You can save search terms and definitions locally.\n" +
-//                    "4. Use the 'View Saved Terms' button to view and delete saved terms.\n" +
-//                    "5. SharedPreferences will save your last search term.");
-//            builder.setPositiveButton("OK", ((dialog, click) ->{} )).create().show();
-//            return true;
-//        }else {
-//
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.mainIcon) {
+            Intent mainPage = new Intent(DictionaryActivity.this, MainActivity.class);
+            startActivity(mainPage);
+            return true;
+        }
+         else if (item.getItemId() == R.id.help_Icon) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Help");
+            builder.setMessage("Instructions for using the Dictionary API:\n\n" +
+                    "1. Enter a word to look up the definition.\n" +
+                    "2. Definitions will be displayed in a RecyclerView.\n" +
+                    "3. You can save search terms and definitions locally.\n" +
+                    "4. Use the 'View Saved Terms' button to view saved terms.\n" +
+                    "5. SharedPreferences will save your last search term.");
+            builder.setPositiveButton("OK", ((dialog, click) ->{} )).create().show();
+            return true;
+        }else {
+
+        }
+        return false;
+    }
 }
