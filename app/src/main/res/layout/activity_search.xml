@@ -14,6 +14,7 @@
         app:title="@string/title_bar_dz"
         android:gravity="center_vertical"
         android:background="#7A00BCD4"
+        app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
