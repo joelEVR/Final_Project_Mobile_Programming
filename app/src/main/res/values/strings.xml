@@ -89,21 +89,25 @@
     <string name="removed_from_favorites">%1$s Removed from favorites</string>
 
     <string-array name="help_instructions_main">
-        <item>- Click on the heart to go to your favorite songs.</item>
+        <item>- Click on the start to go to your favorite songs.</item>
         <item>- Type in the address bar to search for your favorite artist.</item>
         <item>- Clicking on a recent search item will automatically direct you to that artist.</item>
-        <item>- If you want to delete a recent search, click on the X in front of the artist.</item>
+        <item>- If you want to delete a recent search, click on the trash icon in front of the artist.</item>
+        <item>- Tap the home icon to return to common app page.</item>
+
     </string-array>
     <string-array name="help_instructions_artist">
-        <item>- Tap the heart icon to access your favorite songs.</item>
+        <item>- Tap the start icon to access your favorite songs.</item>
         <item>- Tap the arrow next to each artist to see their most popular songs.</item>
         <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
+        <item>- Tap the home icon to return to home page.</item>
     </string-array>
     <string-array name="help_instructions_song">
-        <item>- Tap the heart icon in the toolbar to access your favorite songs.</item>
+        <item>- Tap the start icon in the toolbar to access your favorite songs.</item>
         <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
-        <item>- Tap the heart icon to add the song to your favorites.</item>
+        <item>- Tap the start icon to add the song to your favorites.</item>
         <item>- Tap the x icon to remove the song from your favorites.</item>
+        <item>- Tap the home icon to return to home page.</item>
     </string-array>
     <string-array name="help_instructions_favorites">
         <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
