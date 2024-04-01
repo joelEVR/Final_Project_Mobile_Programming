@@ -254,7 +254,7 @@ public class DeezerMainActivity extends AppCompatActivity implements PreviousSea
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DeezerMainActivity.this, getString(R.string.error) + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeezerMainActivity.this, getString(R.string.error_dz) + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

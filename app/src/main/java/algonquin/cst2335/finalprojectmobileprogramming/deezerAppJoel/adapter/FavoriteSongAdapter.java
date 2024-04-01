@@ -154,10 +154,10 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
      */
     private void showDeleteConfirmationDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
-        builder.setTitle(context.getString(R.string.confirm_deletion))
-                .setMessage(context.getString(R.string.confirm_deletion_message))
-                .setPositiveButton(context.getString(R.string.delete), (dialog, which) -> deleteSong(position))
-                .setNegativeButton(context.getString(R.string.cancel), null)
+        builder.setTitle(context.getString(R.string.confirm_deletion_dz))
+                .setMessage(context.getString(R.string.confirm_deletion_message_dz))
+                .setPositiveButton(context.getString(R.string.delete_dz), (dialog, which) -> deleteSong(position))
+                .setNegativeButton(context.getString(R.string.cancel_dz), null)
                 .show();
     }
 
