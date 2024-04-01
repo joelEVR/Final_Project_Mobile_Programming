@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Final Project Mobile Programming</string>
+    <string name="app_name" translatable="false">Final Project Mobile Programming</string>
 
     <string name="enter_latitude_longitude">Please enter latitude and longitude</string>
     <string name="refresh">Refresh</string>

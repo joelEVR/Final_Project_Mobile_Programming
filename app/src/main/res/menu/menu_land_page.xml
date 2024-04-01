@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/samuel"
+        android:icon="@drawable/ic_samuel"
+        android:title="samuel"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/ting"
+        android:icon="@drawable/ic_location"
+        android:title="ting"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/joel"
+        android:title="joel"
+        android:icon="@drawable/ic_deezer"
+        app:showAsAction="always"/>
+
+</menu>

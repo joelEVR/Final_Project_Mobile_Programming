@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <!-- Permission to access the internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,20 +15,24 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
 
-        <activity android:name=".MainActivity"
-            android:exported="false"
-            />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+            </activity>
 
         <activity
             android:name=".deezerAppJoel.FavoriteSongsActivity"
             android:exported="false" />
+
         <activity
             android:name=".FavoriteActivity"
             android:exported="false" />
-      
-        <activity
-            android:name=".MainActivit"
-            android:exported="true" />
                   
         <activity
             android:name=".deezerAppJoel.SongListActivity"
@@ -41,14 +44,12 @@
 
         <activity 
             android:name=".deezerAppJoel.DeezerMainActivity"
-            android:exported="false">
+            android:exported="false"/>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".MainActivityTing"
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
