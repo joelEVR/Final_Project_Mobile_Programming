@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <!-- Permission to access the internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -22,15 +24,24 @@
             android:name=".deezerAppJoel.FavoriteSongsActivity"
             android:exported="false" />
         <activity
+            android:name=".FavoriteActivity"
+            android:exported="false" />
+      
+        <activity
+            android:name=".MainActivit"
+            android:exported="true" />
+                  
+        <activity
             android:name=".deezerAppJoel.SongListActivity"
             android:exported="false" />
+      
         <activity
             android:name=".deezerAppJoel.ArtistListActivity"
             android:exported="false" />
 
-        <!-- SearchActivity configurada para ser el punto de entrada de la aplicación -->
-        <activity android:name=".deezerAppJoel.DeezerMainActivity"
-            android:exported="true">
+        <activity 
+            android:name=".deezerAppJoel.DeezerMainActivity"
+            android:exported="false">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
