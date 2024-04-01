@@ -1,4 +1,21 @@
 <resources>
+
+    <string name="app_name">Final Project Mobile Programming</string>
+    <string name="search">SEARCH</string>
+    <string name="saveItems">Saved Items</string>
+    <string name="app1_name">Sun App</string>
+    <string name="app2_name">Food Recipe</string>
+    <string name="app3_name">Dictionary</string>
+    <string name="app4_name">Deezer Song</string>
+    <string name="introduce_message">WELCOME! \n Please choose your point of action</string>
+    <string name="error_msg">Error fetching definitions</string>
+    <string name="enter_artist_name">Enter Artist Name</string>
+    <string name="search_hint">Search Hint</string>
+    <string name="search_button">Search Button</string>
+    <string name="spoonacular_api_key">Spoonacular_api_key</string>
+    <string name="save">Save</string>
+
+
     <string name="app_name" translatable="false">Final Project Mobile Programming</string>
 
     <string name="enter_latitude_longitude">Please enter latitude and longitude</string>
@@ -113,6 +130,5 @@
         <item>- Tap the arrow in the toolbar to return to the previous screen.</item>
         <item>- Tap the x icon to remove the song from your favorites.</item>
     </string-array>
-
 
 </resources>
