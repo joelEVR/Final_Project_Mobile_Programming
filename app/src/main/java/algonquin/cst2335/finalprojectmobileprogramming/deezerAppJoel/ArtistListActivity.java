@@ -44,8 +44,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.Top
  * Utilizes Volley for network requests and Gson for JSON parsing.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate (please insert the creation date here, e.g., "April 14, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class ArtistListActivity extends AppCompatActivity implements ArtistAdapter.OnViewSongButtonClickListener {
 

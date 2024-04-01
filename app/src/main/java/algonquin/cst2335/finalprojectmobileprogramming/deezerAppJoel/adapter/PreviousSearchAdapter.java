@@ -22,8 +22,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.R;
  * or fragment to define specific behaviors for these actions.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate Insert the creation date here (e.g., "April 17, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class PreviousSearchAdapter extends RecyclerView.Adapter<PreviousSearchAdapter.ViewHolder> {
 
