@@ -38,8 +38,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
  * song favorites within a local database.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate Please insert the creation date here (e.g., "April 18, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
     public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 

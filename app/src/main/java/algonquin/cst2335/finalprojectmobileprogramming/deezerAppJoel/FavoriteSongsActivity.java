@@ -33,8 +33,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
  * functionality to interact with these songs, including viewing detailed information.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate (please insert the creation date here, e.g., "April 15, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class FavoriteSongsActivity extends AppCompatActivity {
 

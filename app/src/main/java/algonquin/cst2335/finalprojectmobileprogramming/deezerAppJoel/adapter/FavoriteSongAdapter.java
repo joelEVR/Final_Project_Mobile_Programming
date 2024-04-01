@@ -35,8 +35,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Song
  * Utilizes Picasso library for efficient image loading and caching of album covers.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate (Insert your creation date here, e.g., "April 12, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapter.ViewHolder> {
 
@@ -176,7 +176,7 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
                 notifyItemRemoved(position);
             });
         });
-        Toast.makeText(context, context.getString(R.string.removed_from_favorites, song.getTitle()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
     }
 
     /**

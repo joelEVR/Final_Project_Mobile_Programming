@@ -25,8 +25,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.models.Arti
  * This adapter also defines a custom listener interface to handle button clicks for viewing an artist's songs.
  *
  * @author Joan Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate (Insert the actual creation date here, e.g., "April 20, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
 

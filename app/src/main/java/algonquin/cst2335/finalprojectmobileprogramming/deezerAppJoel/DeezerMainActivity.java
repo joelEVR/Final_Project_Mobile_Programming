@@ -49,8 +49,8 @@ import algonquin.cst2335.finalprojectmobileprogramming.deezerAppJoel.service.Sea
  * It also manages user preferences to store and display previous search terms.
  *
  * @author Joel Esteban Velasquez Rodriguez
- * @labSection 031
- * @creationDate (Insert your creation date here, e.g., "April 10, 2023")
+ * labSection 031
+ * creationDate March 31 2023
  */
 public class DeezerMainActivity extends AppCompatActivity implements PreviousSearchAdapter.OnDeleteClickListener,PreviousSearchAdapter.OnClickListener  {
 
