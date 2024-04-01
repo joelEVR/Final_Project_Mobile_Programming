@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_bar_dz">Canciones de Deezer Joel</string>
+    <string name="search_hint_dz">Buscar</string>
+    <string name="recent_searches_dz">Búsquedas Recientes</string>
+    <string name="no_results__dz">No se encontraron resultados</string>
+    <string name="artist">Artista</string>
+    <string name="close_dz">Cerrar</string>
+    <string name="album">Álbum</string>
+    <string name="duration_format">%02d:%02d</string>
+    <string name="song_title">Título de la Canción</string>
+    <string name="no_artist_found">No se encontró el artista</string>
+    <string name="error_dz">Error</string>
+    <string name="song_list"> Lista de Canciones</string>
+    <string name="artist_list_toolbar">Lista de Artistas</string>
+    <string name="error_fetching_top_tracks">Error al obtener las mejores pistas: %1$s</string>
+    <string name="search_terms_key">terminosDeBusqueda</string>
+    <string name="favorite_songs">Canciones Favoritas</string>
+    <string name="added_to_favorites">%1$s añadido a favoritos</string>
+    <string name="failed_to_add_song_to_favorites">Error al añadir la canción a favoritos</string>
+    <string name="confirm_deletion_dz">Confirmar eliminación</string>
+    <string name="confirm_deletion_message_dz">¿Estás seguro de que quieres eliminar esta canción?</string>
+    <string name="delete_dz">Eliminar</string>
+    <string name="cancel_dz">Cancelar</string>
+    <string name="deleted_from_favorites">%1$s eliminado de favoritos</string>
+    <string name="deezer_api_url">https://api.deezer.com/artist/%1$d/top?limit=50</string>
+    <string name="help_dialog_title">Instrucciones</string>
+
+    <string-array name="help_instructions_main">
+        <item>- Haz clic en el corazón para ir a tus canciones favoritas.</item>
+        <item>- Escribe en la barra de direcciones para buscar a tu artista favorito.</item>
+        <item>- Hacer clic en un elemento de búsqueda reciente te dirigirá automáticamente a ese artista.</item>
+        <item>- Si quieres eliminar una búsqueda reciente, haz clic en la X frente al artista.</item>
+    </string-array>
+    <string-array name="help_instructions_artist">
+        <item>- Toca el icono de corazón para acceder a tus canciones favoritas.</item>
+        <item>- Toca la flecha junto a cada artista para ver sus canciones más populares.</item>
+        <item>- Toca la flecha en la barra de herramientas para volver a la pantalla anterior.</item>
+    </string-array>
+    <string-array name="help_instructions_song">
+        <item>- Toca el icono de corazón en la barra de herramientas para acceder a tus canciones favoritas.</item>
+        <item>- Toca la flecha en la barra de herramientas para volver a la pantalla anterior.</item>
+        <item>- Toca el icono de corazón para añadir la canción a tus favoritos.</item>
+        <item>- Toca el icono de la x para quitar la canción de tus favoritos.</item>
+    </string-array>
+    <string-array name="help_instructions_favorites">
+        <item>- Toca la flecha en la barra de herramientas para volver a la pantalla anterior.</item>
+        <item>- Toca el icono de la x para quitar la canción de tus favoritos.</item>
+    </string-array>
+    <string name="removed_from_favorites">Borrado de favoritos</string>
+</resources>
