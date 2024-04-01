@@ -101,7 +101,6 @@
     <string name="deleted_from_favorites">%1$s Deleted from favorites</string>
     <string name="deezer_api_url">https://api.deezer.com/artist/%1$d/top?limit=50</string>
     <string name="help_dialog_title">Instructions</string>
-    <string name="removed_from_favorites">%1$s Removed from favorites</string>
 
     <string-array name="help_instructions_main">
         <item>- Click on the start to go to your favorite songs.</item>

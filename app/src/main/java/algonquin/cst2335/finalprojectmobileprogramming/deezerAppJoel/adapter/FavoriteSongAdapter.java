@@ -174,10 +174,12 @@ public class FavoriteSongAdapter extends RecyclerView.Adapter<FavoriteSongAdapte
             ((AppCompatActivity) context).runOnUiThread(() -> {
                 songs.remove(position);
                 notifyItemRemoved(position);
+                String messageDeleteSong = context.getString(R.string.deleted_from_favorites, song.getTitle());
+                Toast.makeText(context, messageDeleteSong, Toast.LENGTH_SHORT).show();
             });
         });
-        Toast.makeText(context, context.getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
     }
+
 
     /**
      * Displays detailed information about a song in a popup dialog.
